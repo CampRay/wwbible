@@ -1,0 +1,11 @@
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\Views\PaymentPurchaseOrder\Configure.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\Views\PaymentPurchaseOrder\PaymentInfo.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\web.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\Description.txt
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\logo.jpg
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\Nop.Plugin.Payments.PurchaseOrder.dll.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\Nop.Plugin.Payments.PurchaseOrder.dll
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PurchaseOrder\Nop.Plugin.Payments.PurchaseOrder.pdb
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Payments.PurchaseOrder\obj\Debug\Nop.Plugin.Payments.PurchaseOrder.csproj.App.config
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Payments.PurchaseOrder\obj\Debug\Nop.Plugin.Payments.PurchaseOrder.dll
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Payments.PurchaseOrder\obj\Debug\Nop.Plugin.Payments.PurchaseOrder.pdb

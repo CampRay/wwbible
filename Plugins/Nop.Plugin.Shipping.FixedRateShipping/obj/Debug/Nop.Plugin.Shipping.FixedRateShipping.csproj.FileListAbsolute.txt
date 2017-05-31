@@ -1,0 +1,11 @@
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.FixedRateShipping\Views\ShippingFixedRate\Configure.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.FixedRateShipping\Description.txt
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.FixedRateShipping\web.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.FixedRateShipping\logo.jpg
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.FixedRateShipping\Nop.Plugin.Shipping.FixedRateShipping.dll.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.FixedRateShipping\Nop.Plugin.Shipping.FixedRateShipping.dll
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.FixedRateShipping\Nop.Plugin.Shipping.FixedRateShipping.pdb
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Shipping.FixedRateShipping\obj\Debug\Nop.Plugin.Shipping.FixedRateShipping.csproj.App.config
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Shipping.FixedRateShipping\obj\Debug\Nop.Plugin.Shipping.FixedRateShipping.dll
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Shipping.FixedRateShipping\obj\Debug\Nop.Plugin.Shipping.FixedRateShipping.pdb
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Shipping.FixedRateShipping\obj\Debug\Nop.Plugin.Shipping.FixedRateShipping.csprojResolveAssemblyReference.cache

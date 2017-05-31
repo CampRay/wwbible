@@ -1,0 +1,64 @@
+﻿@model ProductDetailsModel
+
+@using Nop.Web.Framework.Themes
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Models.Catalog;
+@{
+    Html.AppendScriptParts("~/Scripts/jQuery.resizeEnd.min.js");
+    Html.AppendScriptParts("~/Scripts/jquery.validate.unobtrusive.min.js");
+    Html.AppendScriptParts("~/Scripts/jquery.validate.min.js");
+    Html.AppendScriptParts("~/Scripts/jquery-1.10.2.min.js");
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    @*This is used so that themes can inject content into the header*@
+    @Html.Partial("Head")
+    @Html.NopCssFiles(this.Url, ResourceLocation.Head)
+    @Html.NopScripts(this.Url, ResourceLocation.Head)
+    <script>
+        var ifm = window.parent.document.getElementById('iframepage');
+        ifm.height = 580;
+        function changeFrameHeight() {
+            var ifm = window.parent.document.getElementById('iframepage');
+            if (ifm.height != document.body.scrollHeight) {
+                ifm.height = document.body.scrollHeight;
+            }
+        }
+
+        $(function () {
+            $(window).resizeEnd({
+                delay: 100
+            }, function () {
+                changeFrameHeight();
+            });
+
+            changeFrameHeight();
+        });
+    </script>
+</head>
+<body style="background:none;">
+    <div class="content">
+        <div class="content-title">
+            <div style="color:#a6937c;font-size:22px;font-weight:bold;height:36px;">@Model.ShortDescription</div>
+            <div style="color:#a6937c;font-size:22px;font-weight:bold;height:36px;">@Model.Name</div>
+        </div>
+        <div class="content-body">
+            @*description*@
+            @if (!String.IsNullOrWhiteSpace(Model.FullDescription))
+            {
+                <div class="category-description">
+                    @Html.Raw(Model.FullDescription)
+                </div>
+            }
+        </div>
+        <div class="mediabd">
+            <video id="vedioPlayer" width="960" height="550" controls="controls">
+                <source src="@Url.RouteUrl("GetFileDownload",new { downloadId = Model.DownloadId })" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+</body>
+</html>

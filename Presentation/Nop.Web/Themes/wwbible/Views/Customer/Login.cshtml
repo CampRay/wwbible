@@ -1,0 +1,90 @@
+﻿@model LoginModel
+@using Nop.Web.Models.Customer;
+@using Nop.Core;
+@using Nop.Core.Infrastructure;
+@{
+    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+
+    //title
+    Html.AddTitleParts(T("PageTitle.Login").Text);
+    //page class
+    Html.AppendPageCssClassParts("html-login-page");    
+}
+
+<div class="page-top">
+    <div class="page-top-body">
+        <div class="col-sm-6 page-top-left">
+            <span class="page-title">@T("Account.Login.Welcome")</span>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="page-top-line">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10" style="padding:0; ">
+            <hr style="border-color:#d2d2d2;margin:3px 0 0 0;">
+            <hr style="border-color:#aa89bd;margin:3px 0 0 50px;">
+            <hr style="border-color:#d2d2d2;margin:3px 0 0 100px;">
+        </div>
+    </div>
+</div>
+
+<div class="page login-page">    
+    @Html.Partial("_ExternalAuthentication.AssociateMessage")
+    @Html.Partial("_ExternalAuthentication.Errors")
+    <div class="page-body">
+        <div class="customer-blocks">            
+            <div class="fieldset">
+                @using (Html.BeginForm())
+                {
+                    var validationSummary = Html.ValidationSummary(true, T("Account.Login.Unsuccessful").Text);
+                    <div class="title">
+                        <strong>@T("Account.Login.ReturningCustomer")</strong>
+                    </div>
+                    if (!MvcHtmlString.IsNullOrEmpty(validationSummary))
+                    {
+                        <div class="message-error">@validationSummary</div>
+                    }
+                    <div class="form-fields">
+                        @if (Model.UsernamesEnabled)
+                        {
+                            <div class="inputs">
+                                @Html.LabelFor(m => m.Username, new { }, ":")
+                                @Html.TextBoxFor(m => m.Username, new { @class = "username", autofocus = "autofocus" })
+                                @Html.ValidationMessageFor(m => m.Username)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="inputs">
+                                @Html.LabelFor(m => m.Email, new { }, ":")
+                                @Html.TextBoxFor(m => m.Email, new { @class = "email", autofocus = "autofocus" })
+                                @Html.ValidationMessageFor(m => m.Email)
+                            </div>
+                        }
+                        <div class="inputs">
+                            @Html.LabelFor(m => m.Password, new { }, ":")
+                            @Html.PasswordFor(m => m.Password, new { @class = "password" })
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </div>
+                        <div class="inputs reversed">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe)
+                            <span class="forgot-password">
+                                @Html.RouteLink(T("Account.Login.ForgotPassword").Text, "PasswordRecovery")
+                            </span>
+                        </div>
+                        @if (Model.DisplayCaptcha)
+                        {
+                            <div class="captcha-box">
+                                @Html.Raw(Html.GenerateCaptcha())
+                            </div>
+                        }
+                    </div>
+                    <div class="buttons">
+                        <input class="btn login-button" type="submit" value="@T("Account.Login.LoginButton")" />
+                    </div>
+                }
+            </div>
+        </div>               
+    </div>
+</div>

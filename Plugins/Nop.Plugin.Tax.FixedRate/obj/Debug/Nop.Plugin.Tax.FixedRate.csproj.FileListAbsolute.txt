@@ -1,0 +1,11 @@
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Tax.FixedRate\Description.txt
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Tax.FixedRate\web.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Tax.FixedRate\Views\TaxFixedRate\Configure.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Tax.FixedRate\logo.jpg
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Tax.FixedRate\Nop.Plugin.Tax.FixedRate.dll.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Tax.FixedRate\Nop.Plugin.Tax.FixedRate.dll
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Tax.FixedRate\Nop.Plugin.Tax.FixedRate.pdb
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Tax.FixedRate\obj\Debug\Nop.Plugin.Tax.FixedRate.csproj.App.config
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Tax.FixedRate\obj\Debug\Nop.Plugin.Tax.FixedRate.csprojResolveAssemblyReference.cache
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Tax.FixedRate\obj\Debug\Nop.Plugin.Tax.FixedRate.dll
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Tax.FixedRate\obj\Debug\Nop.Plugin.Tax.FixedRate.pdb

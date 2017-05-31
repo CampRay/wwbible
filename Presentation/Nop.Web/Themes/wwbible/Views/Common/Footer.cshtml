@@ -1,0 +1,55 @@
+﻿@model FooterModel
+@using Nop.Core
+@using Nop.Core.Domain.Tax
+@using Nop.Core.Infrastructure
+@using Nop.Web.Models.Common;
+@using Nop.Web.Framework.Themes
+@{ 
+    var themeName = EngineContext.Current.Resolve<IThemeContext>().WorkingThemeName;
+    var imagesFolder=string.Format("~/Themes/{0}/Content/images/", themeName);
+    int topicIndex = 0;
+    int topicCount = Model.Topics.Where(x => x.IncludeInFooterColumn1).ToList().Count;
+}
+
+<div class="footer">
+    <div class="container">        
+        <div class="col-md-6">
+            <div class="col-sm-12">
+                <div class="share-icon">
+                    <a href="http://www.facebook.com/pages/%E7%92%B0%E7%90%83%E8%81%96%E7%B6%93%E5%85%AC%E6%9C%83-The-Worldwide-Bible-Society/170867062997385?sk=wall"><img src="@Url.Content(imagesFolder+"facebook.png")" width="32"></a>
+                    <a href="http://www.youtube.com/user/WWBSonline"><img src="@Url.Content(imagesFolder+"youtube.png")" width="32"></a>                
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="footer-info"><span>©2016 環球聖經公會 　版權所有</span></div>
+            </div>
+            <div class="col-sm-12">
+                <div class="footer-info"><span>香港九龍新蒲崗雙喜街9號匯達商業中心22樓</span></div>
+            </div>
+            <div class="col-sm-12">
+                <div class="footer-info"><span>22/F, Win Plaza, 9 Sheung Hei Street, San Po Kong, Kowloon, Hong Kong</span></div>
+            </div>
+            <div class="col-sm-12">
+                <div class="footer-info"><span>Tel : (852) 2356 7234 　Fax: (852) 2356 7389</span></div>
+            </div>
+            <div class="col-sm-12">
+                <div class="footer-info"><span>E-mail: info@wwbible.org</span></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <ul>
+                @foreach (var topic in Model.Topics.Where(x => x.IncludeInFooterColumn1).ToList())
+                {
+                    <li><a href="@Url.RouteUrl("Topic", new { SeName = topic.SeName })">@topic.Name</a></li>
+                    topicIndex++;
+                    if (topicIndex < topicCount)
+                    {
+                        <li><span>|</span></li>
+                    }
+                }
+
+            </ul>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+</div>

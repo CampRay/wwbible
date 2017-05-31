@@ -1,0 +1,82 @@
+﻿@model CategoryModel
+@{
+    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+
+    //title
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
+    //meta
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+    //page class
+    Html.AppendPageCssClassParts("html-category-page");
+
+    var canonicalUrlsEnabled = EngineContext.Current.Resolve<SeoSettings>().CanonicalUrlsEnabled;
+    if (canonicalUrlsEnabled)
+    {
+        var categoryUrl = Url.RouteUrl("Category", new { SeName = Model.SeName }, this.Request.Url.Scheme);
+        Html.AddCanonicalUrlParts(categoryUrl);
+    }
+
+    var breadcrumbDelimiter = EngineContext.Current.Resolve<CommonSettings>().BreadcrumbDelimiter;
+}
+@using Nop.Core.Domain.Common;
+@using Nop.Core.Domain.Seo;
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Models.Catalog;
+
+<div class="page-top">
+    <div class="page-top-body">
+        <div class="col-sm-6 page-top-left">
+            <span class="page-title">@Model.Name</span>
+        </div>
+        <div class="col-sm-6 page-top-right">
+            @if (Model.Products.Count > 0)
+            {
+            <select class="page-top-select" onchange="changeFrameSrc(this)">                
+                @foreach (var product in Model.Products)
+                {
+                    <option value="@Url.RouteUrl("Product", new { SeName = product.SeName })">@product.Name</option>                                           
+                }
+            </select>
+            }
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="page-top-line">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10" style="padding:0; ">
+            <hr style="border-color:#d2d2d2;margin:3px 0 0 0;">
+            <hr style="border-color:#aa89bd;margin:3px 0 0 50px;">
+            <hr style="border-color:#d2d2d2;margin:3px 0 0 100px;">
+        </div>
+    </div>
+</div>
+
+<div class="page category-page">
+    <div class="page-top-body">        
+        <div class="col-md-12">
+            @if (!String.IsNullOrWhiteSpace(Model.Description))
+            {
+                <div class="category-description">
+                    @Html.Raw(Model.Description)
+                </div>
+            }
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="page-body">
+        @if (Model.Products.Count > 0)
+        {
+        <iframe src="@Url.RouteUrl("Product", new { SeName = Model.Products.FirstOrDefault().SeName })" id="iframepage" width="100%" height="800" frameborder="0" scrolling="no"></iframe>
+        }
+    </div>
+</div>
+
+<div class="col-md-12 page-bottom-line"></div>
+
+<script>
+    function changeFrameSrc(obj) {        
+        var ifm = document.getElementById("iframepage");
+        ifm.src = obj.value;
+    }
+</script>

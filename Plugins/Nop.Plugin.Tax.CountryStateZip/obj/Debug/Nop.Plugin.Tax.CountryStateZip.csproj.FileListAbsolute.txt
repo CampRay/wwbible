@@ -1,0 +1,11 @@
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Tax.CountryStateZip\Views\TaxCountryStateZip\Configure.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Tax.CountryStateZip\Description.txt
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Tax.CountryStateZip\web.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Tax.CountryStateZip\logo.jpg
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Tax.CountryStateZip\Nop.Plugin.Tax.CountryStateZip.dll.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Tax.CountryStateZip\Nop.Plugin.Tax.CountryStateZip.dll
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Tax.CountryStateZip\Nop.Plugin.Tax.CountryStateZip.pdb
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Tax.CountryStateZip\obj\Debug\Nop.Plugin.Tax.CountryStateZip.csproj.App.config
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Tax.CountryStateZip\obj\Debug\Nop.Plugin.Tax.CountryStateZip.dll
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Tax.CountryStateZip\obj\Debug\Nop.Plugin.Tax.CountryStateZip.pdb
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Tax.CountryStateZip\obj\Debug\Nop.Plugin.Tax.CountryStateZip.csprojResolveAssemblyReference.cache

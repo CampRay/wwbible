@@ -1,0 +1,386 @@
+﻿@model CategoryModel
+@{
+    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+
+    //title
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
+    //meta
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+    //page class
+    Html.AppendPageCssClassParts("html-category-page");
+
+}
+@using Nop.Core.Domain.Common;
+@using Nop.Core.Domain.Seo;
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Models.Catalog;
+@{ 
+    Dictionary<string, List<ProductOverviewModel>> dict = new Dictionary<string, List<ProductOverviewModel>>();
+    foreach (var product in Model.Products)
+    {
+        List<ProductOverviewModel> products= new List<ProductOverviewModel>();
+        if (dict.ContainsKey(product.ShortDescription))
+        {
+            products= dict[product.ShortDescription];
+        }
+        else
+        {
+            dict.Add(product.ShortDescription, products);
+        }
+        products.Add(product);
+    }
+}
+<div id="dialog-message" title="確認訊息..." style="display:none;">
+    <p><label>姓名：</label><span id="dlg_name"></span></p>
+    <p><label>電話：</label><span id="dlg_mobile"></span></p>
+    <p><label>電郵：</label><span id="dlg_email"></span></p>
+    <p><label>所屬教會：</label><span id="dlg_church"></span></p>
+    <br />
+    <p>閣下報名以下課程或講座：</p>
+    <br />
+    <p>
+        <ul id="dlg_lectures" style="list-style-type:disc;margin-left:20px;">
+        </ul>
+    </p>
+    <br />
+    <p>請按[確定]確認提交報名，[取消]取消。</p>
+    <p style="color:red;">按[確定]後將於您所填寫的郵箱中收取[確認郵件]。</p>
+</div>
+<div class="page-top">
+    <div class="page-top-body">
+        <div class="col-sm-6 page-top-left">
+            <span class="page-title">@Model.Name</span>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="page-top-line">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10" style="padding:0; ">
+            <hr style="border-color:#d2d2d2;margin:3px 0 0 0;">
+            <hr style="border-color:#aa89bd;margin:3px 0 0 50px;">
+            <hr style="border-color:#d2d2d2;margin:3px 0 0 100px;">
+        </div>
+    </div>
+</div>
+
+<div class="category-page">
+    <div class="content">
+        <div class="content-title">
+            @if (!String.IsNullOrWhiteSpace(Model.Description))
+            {
+                <div class="category-description">
+                    @Html.Raw(Model.Description)
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="failed-result-block" style="display:none;color:red;padding:5px 0;">@T("ApplyLecture.form.failed")</div>
+<div class="success-result-block" style="display:none;color:red;padding:5px 0;">@T("ApplyLecture.form.success")</div>
+<div class="row">
+    <div class="col-md-6" style="margin:20px 0">
+        <div class="fieldset">
+            <div class="inputs" style="height: 40px; line-height:20px;">
+                <label><span style="color:red;">*&nbsp;</span>@T("ApplyLecture.form.name")：</label>
+                <input id="txt-name" type="text" name="Name" style="width: 80%; font-size:16px;" />
+            </div>
+            <div class="inputs" style="height:40px;">
+                <label><span style="color:red;">*&nbsp;</span>@T("ApplyLecture.form.phone")：</label>
+                <input id="txt-phone" type="text" name="Phone" style="width: 80%; font-size: 16px;" />
+            </div>
+            <div class="inputs" style="height:40px;">
+                <label><span style="color:red;">*&nbsp;</span>@T("ApplyLecture.form.email")：</label>
+                <input id="txt-email" type="text" name="Email" style="width: 80%; font-size: 16px;" />
+            </div>
+            <div class="inputs" style="height:40px;">
+                <label>@T("ApplyLecture.form.church")：</label>
+                <input id="txt-church" type="text" name="Church" style="width: 75%; font-size: 16px;" />
+            </div>
+            <br />
+            <div style="font-size:16px;">
+                <div class="comment">
+                    <label style="color:gray;">@T("ApplyLecture.form.comment.title")</label>
+                </div>
+                <div class="comment">
+                    <div style="display: inline-block;">■</div>
+                    <div style="font-weight: normal; width: 90%; display: inline-flex;">@T("ApplyLecture.form.comment.one")</div>
+                </div>
+                <div class="comment">
+                    <div style="display: inline-block;">■</div>
+                    <div style="font-weight: normal; width: 90%; display: inline-flex;">@T("ApplyLecture.form.comment.two")</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6" style="margin:20px 0">
+        <div class="fieldset" style="font-size:15px;">            
+            <div class="inputs" style="line-height:20px;">
+                <input id="chk-agree" type="checkbox" name="Agree" />
+                <label style="font-weight: normal; width: 95%; display: inline-flex;">@T("ApplyLecture.form.Agree")</label>
+            </div>
+            <div>
+                <label>&nbsp;&nbsp;&nbsp;</label>
+                <span style="font-weight: normal; width: 95%; display: inline-flex;">
+                    @T("ApplyLecture.form.Agree.title")
+                </span>
+            </div>
+            <div >
+                <label>&nbsp;&nbsp;&nbsp;</label>
+                <span style="font-weight: normal; width: 95%; display: inline-flex;">
+                    @T("ApplyLecture.form.Agree.one")
+                </span>
+            </div>
+            <div >
+                <label>&nbsp;&nbsp;&nbsp;</label>
+                <span style="font-weight: normal; width: 95%; display: inline-flex;">
+                    @T("ApplyLecture.form.Agree.two")
+                </span>
+            </div> 
+            <br/>
+            <div class="inputs" style="line-height:20px;">
+                <input id="chk-active" type="checkbox" name="Active" checked="checked" />
+                <label style="font-weight: normal; width: 95%; display: inline-flex;">@T("ApplyLecture.form.Active")</labelstyle>
+            </div> 
+			<br />
+            <div style="font-size:16px;">
+                <div class="comment">
+                    <label style="color:red;">@T("ApplyLecture.form.comment.required")</label>
+                </div>                
+            </div>			
+        </div>
+    </div>
+</div>
+
+<div style="text-align:center"><input id="applyBtn" type="button" class="btn" style="width: 80px; font-size: 18px; border-radius:0;background-color:#aaa;color:white; padding: 2px 12px; border: 1px solid black;" value="@T("ApplyLecture.button.submit")"/></div>
+
+<br />
+<br />
+
+<div style="border-top:solid 1px darkgray;border-bottom:solid 1px #e7e7e7;margin-bottom:5px;padding:2px 0;">
+    <div style="height:30px;padding:2px 0;background:#e7e7e7;">
+        <select id="select-series" style="float:right;margin:1px 10px 0 0;" onchange="filterSeries(this)">
+            <option value="">---全部---</option>
+        </select>
+    </div>
+</div>
+<div>    
+    @foreach (var product in Model.Products)
+    {
+        int beginIndex = product.Name.IndexOf("【");
+        var series = product.Name.Substring(beginIndex+1);
+        int endIndex = series.IndexOf("】");
+        series= series.Substring(0, endIndex);
+        var lecturer = product.ShortDescription.Split('|')[0];
+        var dateStr = "";
+        beginIndex = product.ShortDescription.IndexOf("|");
+        if (beginIndex > 0)
+        {
+            dateStr = product.ShortDescription.Substring(beginIndex);
+        }
+    <div class="col-md-12 lecture" series="@series" lecturer="@lecturer">        
+        <div class="lecture-title" data="@series">
+            @product.Name
+        </div>          
+        
+        <div class="col-md-9" style="padding:0;">
+            <div class="lecture-info">
+                <span class="lecture-lecturer">@lecturer</span>
+                @dateStr
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="lecture-apply">
+                <input type="checkbox" name="ProductId" value="@product.Id" />
+                <label>@T("ApplyLecture.form.Apply")</label>
+            </div>
+        </div>
+        <div class="clearfix"></div> 
+        <hr style="margin:15px 0 0;"/>
+        <div class="lecture-arrow lecture-more" >&nbsp;</div>
+        <div class="lecture-content">@Html.Raw(product.FullDescription)</div>     
+    </div>
+
+    }
+</div>
+
+
+<div class="col-md-12 page-bottom-line"></div>
+
+<script>
+    var selectedIds = [];
+    var serieArray = new Array();
+
+    function applySubmit() {        
+        var postData = {
+            Name: $("#txt-name").val(),
+            Phone: $("#txt-phone").val(),
+            Email: $("#txt-email").val(),
+            Church: $("#txt-church").val(),
+            Active: $("#chk-active").is(':checked'),
+            ProductIds: selectedIds
+        };
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "@(Url.RouteUrl("ApplyLecture"))",
+            data: postData,
+            success: function(data) {                                
+                //if (data.Success) {                    
+                //    $('.success-result-block').show();
+                //    $('.failed-result-block').hide();
+                //} else {
+                //    $('.success-result-block').hide();
+                //    $('.failed-result-block').show();
+                //}
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                //$('.success-result-block').hide();
+                //$('.failed-result-block').show();
+            }
+        });
+    }
+
+    function filterSeries(obj) {
+        var seriesStr = $(obj).val();
+        if (seriesStr == "") {
+            $.each($(".lecture"), function (i, n) {
+                $(n).show();
+            });
+        }
+        else {            
+            $.each($(".lecture"), function (i, n) {
+                if ($(n).attr("series") == seriesStr) {
+                    $(n).show();
+                }
+                else {
+                    $(n).hide();
+                }
+            });
+        }
+    }
+
+    $(document).ready(function () {
+        $.each($(".lecture"), function (i, n) {
+            var serie = $(n).attr("series");
+            if (jQuery.inArray(serie, serieArray) == -1) {
+                serieArray.push(serie);
+            }
+        });
+
+        $.each(serieArray, function (i, n) {
+            $("#select-series").append('<option value="'+n+'">' + n + '</option>');
+        });
+
+        $(".lecture-arrow").toggle(
+            function () {
+                $(this).attr("class", "lecture-arrow lecture-up");
+                $(this).next().show();
+            },
+            function () {
+                $(this).attr("class", "lecture-arrow lecture-more");
+                $(this).next().hide();
+            }
+        );
+        
+        $('#applyBtn').click(function () {            
+            if ($.trim($("#txt-name").val()) == "") {
+                alert("姓名不能為空");
+                $("#txt-name").focus();
+                return false;
+            }
+            if ($.trim($("#txt-phone").val()) == "") {
+                alert("電話不能為空");
+                $("#txt-phone").focus();
+                return false;
+            }
+            if ($.trim($("#txt-email").val()) == "") {
+                alert("電郵不能為空");
+                $("#txt-email").focus();
+                return false;
+            }
+            //if (!($("#chk-agree").is(':checked'))) {
+            //    alert("請先勾選承諾選擇框");
+            //    $("#chk-agree").focus();
+            //    return false;
+            //}
+            if ($("input[name='ProductId']:checked").length==0) {
+                alert("請先選擇想要參加的課程/講座");                
+                return false;
+            }
+
+            $("#dlg_name").text($("#txt-name").val());
+            $("#dlg_mobile").text($("#txt-phone").val());
+            $("#dlg_email").text($("#txt-email").val());
+            $("#dlg_church").text($("#txt-church").val());
+            $("#dlg_lectures").children().remove();
+            $.each($("input[name='ProductId']:checked"), function (i, chk) {
+                var lecDiv = $(chk).parents(".lecture").first();
+                $("#dlg_lectures").append("<li><p style='color:#cca966;'>" + $(lecDiv).find(".lecture-title").first().text() + "</p><p>" + $(lecDiv).find(".lecture-info").first().text() + "</p></li>");
+            });
+            
+            $("#dialog-message").dialog({
+                height: 600,
+                width: 800,
+                modal: true,
+                buttons: {
+                    確定: function () {
+                        applySubmit();						
+                        $(this).dialog("close");
+						window.location.href="http://www.wwbible.org";
+                    },
+                    取消: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+            
+        });
+
+        $("input[name='ProductId']").on('change', function (e) {
+            var $check = $(this);
+            if ($check.is(":checked") == true) {
+                var checked = jQuery.inArray($check.val(), selectedIds);
+                if (checked == -1) {
+                    //add id to selectedIds.
+                    selectedIds.push($check.val());
+                }
+            } else {
+                var checked = jQuery.inArray($check.val(), selectedIds);
+                if (checked > -1) {
+                    //remove id from selectedIds.
+                    selectedIds = $.grep(selectedIds, function (item, index) {
+                        return item != $check.val();
+                    });
+                }
+            }            
+        });
+
+        //$('.lecture-title').click(function () {
+        //    var seriesStr = $(this).attr("data");            
+        //    $.each($(".lecture"), function (i, n) {
+        //        if ($(n).attr("series") == seriesStr) {
+        //            $(n).show();                   
+        //        }
+        //        else {
+        //            $(n).hide();
+        //        }
+        //    });
+        //});
+
+        $('.lecture-lecturer').click(function () {
+            var lecturerStr = $(this).text();
+            $.each($(".lecture"), function (i, n) {
+                if ($(n).attr("lecturer") == lecturerStr && ($("#select-series").val() == $(n).attr("series") || $("#select-series").val() == "")) {
+                    $(n).show();
+                }
+                else {
+                    $(n).hide();
+                }
+            });
+            $("#select-series").children().first().attr("selected", "selected");
+        });
+    
+    });
+    
+</script>

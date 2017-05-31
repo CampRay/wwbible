@@ -1,0 +1,48 @@
+﻿@model NewsItemModel
+@using Nop.Web.Models.News;
+@{
+    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+
+    //title
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title);
+    //meta
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+    //page class
+    Html.AppendPageCssClassParts("html-news-item-page");
+}
+
+<div class="page-top">
+    <div class="page-top-body">
+        <div class="col-sm-6 page-top-left">
+            <span class="page-title">@T("News.Description")</span>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="page-top-line">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10" style="padding:0; ">
+            <hr style="border-color:#d2d2d2;margin:3px 0 0 0;">
+            <hr style="border-color:#aa89bd;margin:3px 0 0 50px;">
+            <hr style="border-color:#d2d2d2;margin:3px 0 0 100px;">
+        </div>
+    </div>
+</div>
+
+<div class="news-item-page">
+    <div class="news-title">
+        <div style="color:#a6937c;font-size:26px;font-weight:bold;height:36px;margin-bottom:10px;">@Model.Title</div>
+    </div>
+    <div class="news-content" style="position:relative;display:block;">
+        <div class="news-date" style="margin:10px;">
+            @Model.CreatedOn.ToString("D")
+        </div>  
+        <div class="news-pic" style="margin:10px;">
+            <img src="@Model.PictureModel.ImageUrl" />
+        </div>        
+        <div class="news-body">            
+            @Html.Raw(Model.Full)
+        </div>
+        
+    </div>
+</div>

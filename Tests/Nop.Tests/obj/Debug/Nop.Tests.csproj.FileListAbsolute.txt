@@ -1,0 +1,9 @@
+D:\NewGit\wwbible\Tests\Nop.Tests\bin\Debug\Nop.Tests.dll
+D:\NewGit\wwbible\Tests\Nop.Tests\bin\Debug\Nop.Tests.pdb
+D:\NewGit\wwbible\Tests\Nop.Tests\bin\Debug\nunit.framework.dll
+D:\NewGit\wwbible\Tests\Nop.Tests\bin\Debug\Rhino.Mocks.dll
+D:\NewGit\wwbible\Tests\Nop.Tests\bin\Debug\nunit.framework.xml
+D:\NewGit\wwbible\Tests\Nop.Tests\bin\Debug\Rhino.Mocks.xml
+D:\NewGit\wwbible\Tests\Nop.Tests\obj\Debug\Nop.Tests.csprojResolveAssemblyReference.cache
+D:\NewGit\wwbible\Tests\Nop.Tests\obj\Debug\Nop.Tests.dll
+D:\NewGit\wwbible\Tests\Nop.Tests\obj\Debug\Nop.Tests.pdb

@@ -1,0 +1,190 @@
+﻿@model NewsLetterSubscriptionModel
+@using Nop.Web.Models.Newsletter;
+@{
+    Html.AppendScriptParts("~/Scripts/jQuery.resizeEnd.min.js");
+    Html.AppendScriptParts("~/Scripts/jquery.validate.unobtrusive.min.js");
+    Html.AppendScriptParts("~/Scripts/jquery.validate.min.js");
+    Html.AppendScriptParts("~/Scripts/jquery-1.10.2.min.js");
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    @*This is used so that themes can inject content into the header*@
+    @Html.Partial("Head")
+    @Html.NopCssFiles(this.Url, ResourceLocation.Head)
+    @Html.NopScripts(this.Url, ResourceLocation.Head) 
+    <script>
+        function changeFrameHeight() {
+            var ifm = window.parent.document.getElementById('iframepage');
+            if (ifm.height != document.body.scrollHeight) {
+                ifm.height = document.body.scrollHeight+180;
+                var pifm = window.parent.parent.document.getElementById('iframepage');
+                if (pifm) {
+                    pifm.height = window.parent.document.body.scrollHeight;
+                }
+            }
+        }
+
+        $(function () {        
+            $(window).resizeEnd({
+                delay: 100
+            }, function () {
+                changeFrameHeight();
+            });
+            
+            changeFrameHeight();
+        });
+    </script>    
+</head>
+<body style="background:none;">
+    <div>
+        <div class="form-title">
+            @T("NewsLetterSubscription.title")
+        </div>
+        <div class="form-body">
+            @if (Model.Successfully)
+            {
+                <div class="result">
+                    @Model.Result
+                </div>
+            }
+                        
+            @using (Html.BeginForm("NewsLetterSubscription", "Newsletter"))
+            {
+                @Html.AntiForgeryToken()
+                var validationSummary = Html.ValidationSummary(true);
+                if (!MvcHtmlString.IsNullOrEmpty(validationSummary))
+                {
+                    <div class="message-error">@validationSummary</div>
+                }
+                <div class="fieldset">
+                    <div class="form-fields">
+                        <div class="inputs">
+                            <label>@T("NewsLetterSubscription.SupportType")</label>
+                            <div>
+                                @Html.CheckBoxFor(model => model.Active)
+                                @Html.LabelFor(model => model.Active)
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            <label>&nbsp;</label>
+                            <div>
+                                @Html.CheckBoxFor(model => model.Participation)
+                                @Html.LabelFor(model => model.Participation)
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            <label>&nbsp;</label>
+                            <div>
+                                @Html.CheckBoxFor(model => model.Monthly)
+                                @Html.LabelFor(model => model.Monthly)
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            @Html.LabelFor(model => model.Amount)
+                            <div>
+                                @Html.TextBoxFor(model => model.Amount)
+                                @Html.ValidationMessageFor(model => model.Amount)
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            @Html.LabelFor(model => model.Cname)
+                            <div>
+                                @Html.TextBoxFor(model => model.Cname)
+                                @Html.ValidationMessageFor(model => model.Cname)
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            @Html.LabelFor(model => model.Ename)
+                            <div>
+                                @Html.TextBoxFor(model => model.Ename)
+                                @Html.ValidationMessageFor(model => model.Ename)
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            <label>@T("Account.Fields.Gender")</label>
+                            <div class="gender">
+                                <span class="male">
+                                    @Html.RadioButtonFor(model => model.Gender,false)
+                                    
+                                    <label class="forcheckbox" for="gender-male">@T("Account.Fields.Gender.Male")</label>
+                                </span>
+                                <span class="female">
+                                    @Html.RadioButtonFor(model => model.Gender, true)
+                                    
+                                    <label class="forcheckbox" for="gender-female">@T("Account.Fields.Gender.Female")</label>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            @Html.LabelFor(model => model.Phone)
+                            <div>
+                                @Html.TextBoxFor(model => model.Phone)
+                                @Html.ValidationMessageFor(model => model.Phone)
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            @Html.LabelFor(model => model.Email)
+                            <div>
+                                @Html.TextBoxFor(model => model.Email)
+                                @Html.ValidationMessageFor(model => model.Email)
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            @Html.LabelFor(model => model.Address)
+                            <div>
+                                @Html.TextBoxFor(model => model.Address)
+                                @Html.ValidationMessageFor(model => model.Address)
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            @Html.LabelFor(model => model.Church)
+                            <div>
+                                @Html.TextBoxFor(model => model.Church)
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            <label>@T("NewsLetterSubscription.SupportMethod")</label>
+                            <div>
+                                @Html.CheckBoxFor(model => model.MailCheck)
+                                @Html.LabelFor(model => model.MailCheck)
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            <label>&nbsp;</label>
+                            <div>
+                                @Html.CheckBoxFor(model => model.Deposit)
+                                @Html.LabelFor(model => model.Deposit)
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            <label>&nbsp;</label>
+                            <div>
+                                @Html.CheckBoxFor(model => model.Virement)
+                                @Html.LabelFor(model => model.Virement)
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            <label>&nbsp;</label>
+                            <div>
+                                &nbsp;
+                            </div>
+                        </div>
+                        <div class="inputs">
+                            <label>&nbsp;</label>
+                            <div>
+                                <input type="submit" name="NewsLetterSubscription" class="btn btn-blue" value="@T("NewsLetterSubscription.Button")" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin:25px 0;display:block;clear:both;">
+                    * @T("NewsLetterSubscription.comment")
+                </div>
+            }
+            
+        </div>
+    </div>
+</body>
+</html>

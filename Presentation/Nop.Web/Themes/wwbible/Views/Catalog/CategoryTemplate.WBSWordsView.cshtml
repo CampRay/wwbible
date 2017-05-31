@@ -1,0 +1,125 @@
+﻿@model CategoryModel
+@{
+    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+
+    //title
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
+    //meta
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+    //page class
+    Html.AppendPageCssClassParts("html-category-page");
+
+}
+@using Nop.Core.Domain.Common;
+@using Nop.Core.Domain.Seo;
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Models.Catalog;
+@{ 
+    Dictionary<string, List<ProductOverviewModel>> dict = new Dictionary<string, List<ProductOverviewModel>>();
+    foreach (var product in Model.Products)
+    {
+        List<ProductOverviewModel> products= new List<ProductOverviewModel>();
+        if (dict.ContainsKey(product.ShortDescription))
+        {
+            products= dict[product.ShortDescription];
+        }
+        else
+        {
+            dict.Add(product.ShortDescription, products);
+        }
+        products.Add(product);
+    }
+}
+
+<div class="page-top">
+    <div class="page-top-body">
+        <div class="col-sm-6 page-top-left">
+            <span class="page-title">@Model.Name</span>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="page-top-line" style="padding-bottom: 0;">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10" style="padding:0; ">
+            <hr style="border-color:#d2d2d2;margin:3px 0 0 0;">
+            <hr style="border-color:#aa89bd;margin:3px 0 0 50px;">
+            <hr style="border-color:#d2d2d2;margin:3px 0 0 100px;">
+        </div>
+    </div>
+</div>
+
+<div class="category-page">
+    <div class="content">
+        <div class="content-title">
+            @if (!String.IsNullOrWhiteSpace(Model.Description))
+            {
+                <div class="category-description">
+                    @Html.Raw(Model.Description)
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="col-md-2 page-left" style="padding-right:0;">
+    <div class="words-search">
+        <input id="searchBtn" type="button" class="search-icon" value="" />
+        <input id="searchText" type="text" class="search-text"/>
+    </div>
+    <div class="words-group">
+        @foreach (var item in dict)
+        {
+            <div class="group-title">@item.Key</div>
+            <div class="group-content">
+                @foreach (var p in item.Value)
+                {
+                    <div><a onclick="changeFrameSrc('@Url.RouteUrl("Product", new { SeName = p.SeName })','@p.Name')">@p.Name</a></div>
+                }                
+            </div>
+        }
+    </div>
+</div>
+<div class="col-md-10" style="margin-top:40px;padding-left:5px;">    
+    <div class="content" style="border-left: 1px solid #d2d2d2;padding:0 20px;">                
+        <div class="content-body">
+            @if (Model.Products.Count > 0)
+            {
+            <iframe src="@Url.RouteUrl("Product", new { SeName = Model.Products.FirstOrDefault().SeName })" id="iframepage" width="100%" height="580"  frameborder="0" scrolling="yes"></iframe>
+            }
+        </div>
+
+    </div>
+</div>
+
+<div class="col-md-12 page-bottom-line"></div>
+
+<script>
+    function changeFrameSrc(url) {
+        var ifm = document.getElementById("iframepage");
+        ifm.src = url;
+    }
+
+    $(function () {
+        $("#searchBtn").on("click", function () {
+            var allWordDivs = $(".group-content div");
+            $(".group-title").hide();
+            allWordDivs.hide();
+            var searchTxt=$("#searchText").val();
+            $.each(allWordDivs, function (i, n) {
+                if ($(n).text().indexOf(searchTxt) != -1) {
+                    $(n).show();
+                    $(n).parent().prev().show();
+                }
+            });
+        });
+
+        $("#searchText").keydown(function (event) {
+            if (event.keyCode == 13) {
+                $("#searchBtn").click();
+                return false;
+            }
+        });
+    });
+
+</script>

@@ -1,0 +1,70 @@
+﻿@model NewsItemListModel
+@using Nop.Web.Models.News;
+@{
+    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+        
+}
+
+<div class="page-top">
+    <div class="page-top-body">
+        <div class="col-sm-6 page-top-left">
+            <span class="page-title">@T("News.List")</span>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="page-top-line">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10" style="padding:0; ">
+            <hr style="border-color:#d2d2d2;margin:3px 0 0 0;">
+            <hr style="border-color:#aa89bd;margin:3px 0 0 50px;">
+            <hr style="border-color:#d2d2d2;margin:3px 0 0 100px;">
+        </div>
+    </div>
+</div>
+
+<div class="content">
+
+    <!--news-->
+    <div class="row news-top">
+        <span>|</span><span class="title">@T("News.Title")</span><span>|</span>
+    </div>
+    @foreach (var item in Model.NewsItems)
+    {
+        <div style="margin: 10px;">
+            <div class="row news-item">
+                <div class="col-sm-6 news-img">
+                    <a href="@Url.RouteUrl("NewsItem", new { SeName = item.SeName })">
+                        <img src="@item.PictureModel.ImageUrl"  width="100%" height="220"/>
+                    </a>                    
+                </div>
+                <div class="col-sm-6 news">
+                    <div class="col-sm-12 news-title">
+                        @item.Title
+                    </div>
+                    <div class="col-sm-12 news-content">
+                        @Html.Raw(item.Short)
+                    </div>
+                    <div class="col-sm-12 news-detail">
+                        <a href="@Url.RouteUrl("NewsItem", new { SeName = item.SeName })">@T("News.MoreInfo")</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+    <div class="col-md-12 news-pages">
+        @{
+            var pager = Html.Pager(Model.PagingFilteringContext).QueryParam("pagenumber").ShowTotalSummary(true);
+        }
+        @if (!pager.IsEmpty())
+        {
+            <div class="pager">
+                @pager
+            </div>
+        }
+    </div>
+    <div class="row news-foot"></div>
+    <!--//news-->
+
+
+</div>

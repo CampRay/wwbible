@@ -1,0 +1,12 @@
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.Manual\Views\PaymentManual\Configure.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.Manual\Views\PaymentManual\PaymentInfo.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.Manual\Description.txt
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.Manual\web.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.Manual\logo.jpg
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.Manual\Nop.Plugin.Payments.Manual.dll.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.Manual\Nop.Plugin.Payments.Manual.dll
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.Manual\Nop.Plugin.Payments.Manual.pdb
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Payments.Manual\obj\Debug\Nop.Plugin.Payments.Manual.csproj.App.config
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Payments.Manual\obj\Debug\Nop.Plugin.Payments.Manual.csprojResolveAssemblyReference.cache
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Payments.Manual\obj\Debug\Nop.Plugin.Payments.Manual.dll
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Payments.Manual\obj\Debug\Nop.Plugin.Payments.Manual.pdb

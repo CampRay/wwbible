@@ -1,0 +1,531 @@
+﻿@model CategoryModel
+@{
+    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+
+    //title
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
+    //meta
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+    //page class
+    Html.AppendPageCssClassParts("html-category-page");
+
+    int currentCategoryId = 0;
+    if (Url.RequestContext.RouteData.Values["controller"].ToString().Equals("catalog", StringComparison.InvariantCultureIgnoreCase) &&
+        Url.RequestContext.RouteData.Values["action"].ToString().Equals("category", StringComparison.InvariantCultureIgnoreCase))
+    {
+        currentCategoryId = Convert.ToInt32(Url.RequestContext.RouteData.Values["categoryId"].ToString());
+    }
+
+    var categoryService = EngineContext.Current.Resolve<ICategoryService>();
+    var bookCategoryList=categoryService.GetAllCategoriesByParentCategoryId(@Model.CategoryBreadcrumb[1].Id);    
+
+}
+@using Nop.Core.Domain.Common;
+@using Nop.Core.Domain.Seo;
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Models.Catalog;
+@using Nop.Services.Catalog;
+@using Nop.Services.Seo;
+
+<div id="dialog-message" style="display:none;">
+    <div style="text-align:center;height:40px;">
+        <select id="scopeSelect" style="width:180px;">
+            <option value="">--- 指定範圍 ---</option>            
+            @if (Model.SubCategories.Count > 0)
+            {
+                foreach (var item in Model.SubCategories)
+                {                    
+                    <option value="@item.Id">@item.Name</option>
+                }   
+            }
+        </select>
+    </div>
+    <div style="text-align:center;height:40px;">
+        <select id="bookSelect" style="width:180px;">
+            <option value="">--- 指定書卷 ---</option>
+        </select>
+    </div>    
+    <div style="height:40px;">
+        <div style="width: 176px; margin: 0 auto;">
+            <input id="advSearchText" type="text" value="請輸入搜尋字句" class="search-text" style="color: gray; width: 176px;" />
+        </div>
+    </div>
+    <div style="height:40px;">
+        <div style="width: 87px; margin: 0 auto;">
+            <input id="advSearchSubmit" type="button" value="進階搜尋" class="search-btn" />
+        </div>
+    </div>
+</div>
+
+<div class="page-top" style="margin: 20px 0 0;">
+    <div class="page-top-body">
+        <div class="col-sm-6 page-top-left">
+            <span class="page-title">@Model.CategoryBreadcrumb[1].Name</span>
+        </div>
+        <div class="col-sm-6 page-top-right">
+            @if (bookCategoryList.Count > 0)
+            {
+                <select class="page-top-select" onchange="javascript:window.location.href = this.value;">
+                    @foreach (var bookCategory in bookCategoryList)
+                    {
+                        if (bookCategory.Id == Model.Id)
+                        {
+                        <option selected value="@Url.RouteUrl("Category", new { SeName = bookCategory.GetSeName() })">@bookCategory.Name</option>
+                        }
+                        else
+                        {
+                        <option value="@Url.RouteUrl("Category", new { SeName = bookCategory.GetSeName() })">@bookCategory.Name</option>
+                        }
+                    }
+                </select>
+            }
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="page-top-line" style="border-left: 1px solid #7e308e;border-right: 1px solid #7e308e;padding-bottom:0;">
+        <hr style="border-color:#d2d2d2;margin:3px 0 0 0;">
+        <hr style="border-color:#d2d2d2;margin:3px 0 0 0;">
+        <hr style="border-color:#d2d2d2;margin:3px 0 0 0;">
+    </div>
+</div>
+
+<div class="book-page" style="border-left: 1px solid #7e308e;border-right: 1px solid #7e308e">
+    <div class="content">
+        <div class="content-title">
+            @if (!String.IsNullOrWhiteSpace(Model.Description))
+            {
+                <div class="category-description">
+                    @Html.Raw(Model.Description)
+                </div>
+            }
+        </div>
+    </div>    
+</div>
+
+<div class="page" style="border-left: 1px solid #7e308e;border-right: 1px solid #7e308e">    
+    <div class="content" style="position:relative;">   
+        <div class="book-search">
+            <input id="searchText" type="text" name="q" class="search-text" />
+            <input id="normalSearchBtn" type="button" class="search-btn" value="搜尋" />
+            <input id="advSearchBtn" type="button" class="search-btn" style="margin-left:8px;" value="進階搜尋" />
+        </div>              
+        <div class="book-nav">
+            @if (Model.SubCategories.Count > 0)
+            {
+                <div class="book-nav-block">
+                    @foreach (var item in Model.SubCategories)
+                    {
+                        <div class="book-tag">@item.Name</div>
+                        <div class="book-tag-tree">
+                            @Html.Action("BookNavigation", "Catalog", new { currentCategoryId = item.Id })
+                        </div>
+                    }
+                </div>
+            }
+        </div>  
+           
+        <div class="content-body" style="margin:0 40px;padding-top:40px;">            
+            <div id="book-name" class="book-name" style="color: #999999; font-family: DFKai-SB,BiauKai; font-size: 26px; font-weight: bold; text-align: center; height: 36px;"></div>
+            <iframe src="" id="iframepage" width="100%" height="580"  frameborder="0" scrolling="yes"></iframe>            
+        </div>    
+        <div id="left-next-page" class="left-next-page"></div>  
+        <div id="right-next-page" class="right-next-page"></div>           
+    </div>
+</div>
+
+<div class="col-md-12 page-bottom-line" style="border-left: 1px solid #7e308e;border-right: 1px solid #7e308e"></div>
+
+<script>
+
+    var curPageUrl = "";
+    var currentCategoryId = 0;
+    function changeFrameSrc(url) {
+        var ifm = document.getElementById("iframepage");
+        ifm.src = url;
+    }
+
+    $(function () {
+
+        var nextCategoryId = 0;
+        if ($(".book-group-item").length > 0) {
+            var liItem = $(".book-group-item")[0];
+            var categoryId = $(liItem).attr("data");
+            showFirsePage(categoryId);
+        }
+
+        //添加章面板
+        $(".book-group-item").on("mouseover", function () {
+            var bookSection = $(this).find('.book-section-row');
+            if ($(bookSection).find("span").length > 0) {
+                return;
+            }
+
+            var postData = {
+                categoryId: $(this).attr("data")
+            };
+            $.ajax({
+                cache: false,
+                type: 'POST',
+                url: '@Url.Action("CategoryProducts", "Catalog")',
+                data: postData,
+                dataType: 'json',
+                success: function (data) {
+                    if ($(bookSection).find("span").length > 0) {
+                        return;
+                    }
+                    var rowNum = Math.ceil(data.Products.length / 10);
+                    for (var i = 0; i < rowNum * 10; i++) {
+                        $(bookSection).append("<span>&nbsp;</span>");
+                    }
+                    var spanlist = $(bookSection).find("span")
+                    $.each(data.Products, function (i, n) {
+                        var td = spanlist[i];
+                        $(td).html(i + 1);
+                        $(td).attr("data", n.Url);
+
+                        $(td).on("click", function () {
+                            currentCategoryId = $(this).parent().parent().parent().attr("data")
+                            var productUrl = $(this).attr("data");
+                            curPageUrl = productUrl;
+                            $(".book-tag-tree").mouseout();
+                            changeFrameSrc(productUrl);
+                            handleArrow();
+                        });
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('由於系統原因，無法顯示章節內容，請稍候再次試！');
+                }
+            });
+
+        });
+
+        function handleArrow() {
+            var firstBookLi = $(".book-group-item[data]").first();
+            var firstSection = firstBookLi.find(".book-section span").first();
+            var lastBookLi = $(".book-group-item[data]").last();
+            var lastSection = lastBookLi.find(".book-section span[data]").last();
+            $(".left-next-page").show();
+            $(".right-next-page").show();
+            $(".book-name").text($(".book-group-item[data='" + currentCategoryId + "']").children("span").first().text());
+            if (firstBookLi.attr("data") == currentCategoryId && firstSection.attr("data") == curPageUrl) {
+                $(".left-next-page").hide();
+                $(".right-next-page").show();
+            }
+            if (lastBookLi.attr("data") == currentCategoryId && lastSection.attr("data") == curPageUrl) {
+                $(".left-next-page").show();
+                $(".right-next-page").hide();
+            }
+
+        }
+
+        function showFirsePage(cid) {
+            var postData = {
+                categoryId: cid
+            };
+            $.ajax({
+                cache: false,
+                type: 'POST',
+                url: '@Url.Action("CategoryProducts", "Catalog")',
+                data: postData,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Products.length > 0) {
+                        currentCategoryId = cid;
+                        //默認顯示第一章
+                        var pageUrl = data.Products[0].Url;
+                        changeFrameSrc(pageUrl);
+                        curPageUrl = pageUrl;
+
+                        var curBookLi = $(".book-group-item").filter("[data='" + cid + "']");
+                        var bookSection = $(curBookLi).find('.book-section-row');
+                        if ($(bookSection).find("span").length > 0) {
+                            return;
+                        }
+                        var rowNum = Math.ceil(data.Products.length / 10);
+                        for (var i = 0; i < rowNum * 10; i++) {
+                            $(bookSection).append("<span></span>");
+                        }
+                        var tdlist = $(bookSection).find("span")
+
+                        $.each(data.Products, function (i, n) {
+                            var td = tdlist[i];
+                            $(td).html(i + 1);
+                            $(td).attr("data", n.Url);
+
+                            $(td).on("click", function () {
+                                currentCategoryId = cid;
+                                var productUrl = $(this).attr("data");
+                                curPageUrl = productUrl;
+                                $(".book-tag-tree").mouseout();
+                                changeFrameSrc(productUrl);
+                                handleArrow();
+                            });
+                        });
+                    }
+                    else {
+                        changeFrameSrc("");
+                    }
+                    handleArrow();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+
+                }
+            });
+        }
+
+        function showLastPage(cid) {
+            var postData = {
+                categoryId: cid
+            };
+            $.ajax({
+                cache: false,
+                type: 'POST',
+                url: '@Url.Action("CategoryProducts", "Catalog")',
+                data: postData,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.Products.length > 0) {
+                        currentCategoryId = cid;
+                        //默認顯示第一章
+                        var pageUrl = data.Products[data.Products.length - 1].Url;
+                        changeFrameSrc(pageUrl);
+                        curPageUrl = pageUrl;
+
+                        var curBookLi = $(".book-group-item").filter("[data='" + cid + "']");
+                        var curBookName = curBookLi.children("span").first().text();
+                        var bookSection = $(curBookLi).find('.book-section-row');
+                        if ($(bookSection).find("span").length > 0) {
+                            return;
+                        }
+                        var rowNum = Math.ceil(data.Products.length / 10);
+                        for (var i = 0; i < rowNum * 10; i++) {
+                            $(bookSection).append("<span></span>");
+                        }
+                        var tdlist = $(bookSection).find("span")
+
+                        $.each(data.Products, function (i, n) {
+                            var td = tdlist[i];
+                            $(td).html(i + 1);
+                            $(td).attr("data", n.Url);
+
+                            $(td).on("click", function () {
+                                currentCategoryId = cid;
+                                var productUrl = $(this).attr("data");
+                                curPageUrl = productUrl;
+                                $(".book-tag-tree").mouseout();
+                                changeFrameSrc(productUrl);
+                                handleArrow();
+                            });
+                        });
+                    }
+                    else {
+                        changeFrameSrc("");
+                    }
+                    handleArrow();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+
+                }
+            });
+        }
+
+
+        $(".left-next-page").on("click", function () {
+            var bookArr = $(".book-group-item[data]");
+            var curBookLi = bookArr.filter("[data='" + currentCategoryId + "']").first();
+            var curSection = curBookLi.find(".book-section span[data='" + curPageUrl + "']").first();
+            var prevSection = $(curSection).prev();
+            if (prevSection && prevSection.attr("data")) {
+                curPageUrl = prevSection.attr("data");
+                changeFrameSrc(curPageUrl);
+            }
+            else {
+                var curIndx = bookArr.index(curBookLi);
+                if (curIndx > 0) {
+                    var prevBook = $(bookArr[curIndx - 1]);
+                    currentCategoryId = prevBook.attr("data");
+                    var spanlist = prevBook.find('.book-section span[data]');
+                    if (spanlist && spanlist.length > 0) {
+                        var lastSpan = spanlist.last();
+                        curPageUrl = lastSpan.attr("data");
+                        changeFrameSrc(curPageUrl);
+                    }
+                    else {
+                        showLastPage(currentCategoryId);
+                    }
+                }
+            }
+            handleArrow();
+        });
+
+        $(".right-next-page").on("click", function () {
+            var bookArr = $(".book-group-item[data]");
+            var curBookLi = bookArr.filter("[data='" + currentCategoryId + "']").first();
+            var curSection = curBookLi.find(".book-section span[data='" + curPageUrl + "']").first();
+            var nextSection = $(curSection).next();
+            if (nextSection && nextSection.attr("data")) {
+                curPageUrl = nextSection.attr("data");
+                changeFrameSrc(curPageUrl);
+            }
+            else {
+                var curIndx = bookArr.index(curBookLi);
+                if (bookArr.length > curIndx + 1) {
+                    var nextBook = $(bookArr[curIndx + 1]);
+                    currentCategoryId = nextBook.attr("data");
+                    var spanlist = nextBook.find('.book-section span[data]');
+                    if (spanlist && spanlist.length > 0) {
+                        var firstSpan = spanlist.first();
+                        curPageUrl = firstSpan.attr("data");
+                        changeFrameSrc(curPageUrl);
+                    }
+                    else {
+                        showFirsePage(currentCategoryId);
+                    }
+                }
+
+            }
+
+            handleArrow();
+        });
+
+        $(window).keydown(function (event) {
+            if (event.keyCode == 37) {
+                if ($(".left-next-page").is(":visible")) {
+                    $(".left-next-page").trigger("click");
+                }
+            }
+            else if (event.keyCode == 39) {
+                if ($(".right-next-page").is(":visible")) {
+                    $(".right-next-page").trigger("click");
+                }
+            }
+        });
+
+        $(".book-tag").on("mouseover", function () {
+            $(this).css("background-color", "#cc9966");
+            $(this).next().show();
+        });
+        $(".book-tag").on("mouseout", function () {
+            $(this).css("background-color", "#7e308e");
+            $(this).next().hide();
+        });
+        $(".book-tag-tree").on("mouseover", function () {
+            $(this).prev().css("background-color", "#cc9966");
+            $(this).show();
+        });
+        $(".book-tag-tree").on("mouseout", function () {
+            $(this).prev().css("background-color", "#7e308e");
+            $(this).hide();
+        });
+
+        $("#normalSearchBtn").on("click", function () {
+            if ($("#searchText").val() == "") {
+                alert("請輸入搜尋字句!");
+                $("#searchText").focus();
+                return;
+            }
+            if (!/.*[\u4e00-\u9fa5]+.*$/.test($("#searchText").val())) {
+                if ($("#searchText").val().length < 3) {
+                    alert("搜尋字句最少需要三個字母!");
+                    $("#searchText").focus();
+                    return;
+                }
+            }
+            var searchUrl = "/searchbook/" + $("#searchText").val() + "/@currentCategoryId";
+            changeFrameSrc(searchUrl);
+            $(".book-name").text("");
+            $(".left-next-page").hide();
+            $(".right-next-page").hide();
+        });
+
+        function loadBookList(categoryId) {            
+            var postData = {
+                categoryId: categoryId
+            };
+            $.ajax({
+                cache: false,
+                type: 'POST',
+                url: '@Url.Action("BookCategoryList", "Catalog")',
+                data: postData,
+                dataType: 'json',
+                success: function (data) {
+
+                    $.each(data.Categories, function (i, n) {
+                        $("#bookSelect").append('<option value="' + n.Id + '">' + n.Name + '</span>');
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('由於系統原因，無法顯示書卷選項，請稍候再試！');
+                }
+            });
+        }
+
+        $("#advSearchBtn").on("click", function () {
+            if ($("#scopeSelect").val() == "") {
+                var searchCategoryId = "@currentCategoryId";
+                loadBookList(searchCategoryId);
+            }
+            $("#dialog-message").dialog({
+                height: 220,
+                width: 280,
+                modal: true
+            });
+            $(".ui-dialog-titlebar").css("background", "white");
+        });
+
+        $("#scopeSelect").on("change", function () {
+            var searchCategoryId = "@currentCategoryId";
+            if ($(this).val() != "") {
+                searchCategoryId = $(this).val();
+            }
+            $("#bookSelect").empty();
+            $("#bookSelect").append('<option value="">--- 指定書卷 ---</span>');
+            loadBookList(searchCategoryId);
+        });
+
+        $("#advSearchSubmit").on("click", function () {
+            if ($("#advSearchText").val() == "" || $("#advSearchText").val() == "請輸入搜尋字句") {
+                alert("請輸入搜尋字句!");
+                $("#advSearchText").focus();
+                return;
+            }
+            if (!/.*[\u4e00-\u9fa5]+.*$/.test($("#advSearchText").val())) {
+                if ($("#advSearchText").val().length < 3) {
+                    alert("搜尋字句最少需要三個字母!");
+                    $("#advSearchText").focus();
+                    return;
+                }
+            }
+            
+            var searchCategoryId = "@currentCategoryId";
+            if ($("#scopeSelect").val() != "") {
+                searchCategoryId = $("#scopeSelect").val();
+            }
+            if ($("#bookSelect").val() != "") {
+                searchCategoryId = $("#bookSelect").val();
+            }
+            $("#dialog-message").dialog("close");
+            var searchUrl = "/searchbook/" + $("#advSearchText").val() + "/" + searchCategoryId;
+            changeFrameSrc(searchUrl);
+            $(".book-name").text("");
+            $(".left-next-page").hide();
+            $(".right-next-page").hide();
+
+        });
+
+        $("#advSearchText").focusout(function () {
+            if ($.trim($("#advSearchText").val()) == "") {
+                $(this).val("請輸入搜尋字句");
+                $(this).css("color", "gray");
+            }
+        });
+        $("#advSearchText").focus(function () {
+            if ($.trim($("#advSearchText").val()) == "請輸入搜尋字句") {
+                $(this).val("");
+                $(this).css("color", "black");
+            }
+        });
+    });
+</script>

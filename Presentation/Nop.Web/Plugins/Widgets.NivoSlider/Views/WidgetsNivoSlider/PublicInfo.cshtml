@@ -1,0 +1,51 @@
+﻿@model Nop.Plugin.Widgets.NivoSlider.Models.PublicInfoModel
+@{
+    Layout = "";
+
+    Html.AddScriptParts("~/Plugins/Widgets.NivoSlider/Scripts/jquery.nivo.slider.js");
+    Html.AddCssFileParts("~/Plugins/Widgets.NivoSlider/Content/nivoslider/nivo-slider.css");
+    Html.AddCssFileParts("~/Plugins/Widgets.NivoSlider/Content/nivoslider/themes/custom/custom.css");
+}
+@using Nop.Web.Framework.UI
+
+@helper RenderSliderLine(string pictureUrl, string text, string link, string dataTransition = "")
+{
+    if (!string.IsNullOrEmpty(pictureUrl))
+    {
+        if (!string.IsNullOrEmpty(link))
+        {
+            <a href="@link">
+                <img src="@pictureUrl" data-thumb="@pictureUrl" data-transition="@dataTransition" alt="" title="@text" />
+            </a>
+        }
+        else
+        {
+            <img src="@pictureUrl" data-thumb="@pictureUrl" data-transition="@dataTransition" alt="" title="@text" />
+        }
+    }
+}
+<div class="slider-wrapper theme-custom">
+    <div id="nivo-slider" class="nivoSlider">
+        @RenderSliderLine(Model.Picture1Url, Model.Text1, Model.Link1)
+        @RenderSliderLine(Model.Picture2Url, Model.Text2, Model.Link2)
+        @RenderSliderLine(Model.Picture3Url, Model.Text3, Model.Link3, "slideInLeft")
+        @RenderSliderLine(Model.Picture4Url, Model.Text4, Model.Link4)
+        @RenderSliderLine(Model.Picture5Url, Model.Text5, Model.Link5)
+        @RenderSliderLine(Model.Picture6Url, Model.Text6, Model.Link6)
+        @RenderSliderLine(Model.Picture7Url, Model.Text7, Model.Link7)
+        @RenderSliderLine(Model.Picture8Url, Model.Text8, Model.Link8, "slideInLeft")
+        @RenderSliderLine(Model.Picture9Url, Model.Text9, Model.Link9)
+        @RenderSliderLine(Model.Picture10Url, Model.Text10, Model.Link10)
+    </div>
+</div>
+<script type="text/javascript">
+    $(window).load(function () {
+        $('#nivo-slider').nivoSlider();
+        if ($(".nivo-controlNav").children().length <= 1) {
+            $(".nivo-controlNav").hide();
+        }
+        else {
+            $(".nivo-controlNav").show();
+        }
+    });
+</script>

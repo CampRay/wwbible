@@ -1,0 +1,131 @@
+﻿@model TopMenuModel
+@using Nop.Web.Models.Catalog;
+
+@helper RenderYiJinCategoryLine(CategorySimpleModel category, int level,bool isLast)
+{
+    <li>
+        
+        @{
+            //subcategories
+            var subCategories = category.SubCategories.Where(x => x.IncludeInYiJinMenu).ToList();
+
+            if (subCategories.Count > 0)
+            {
+                <a href="#">@category.Name</a>
+                <ul>
+                    @foreach (var subCategory in subCategories)
+                    {
+                        @RenderYiJinCategoryLine(subCategory, level + 1, isLast)
+                    }
+                </ul>
+            }
+            else
+            {
+                <a href="@Url.RouteUrl("Category", new { SeName = category.SeName })">@category.Name</a>
+            }
+        }
+    </li>
+    if (level == 0 && !isLast)
+    {
+    <li><span>|</span></li>
+    }  
+}
+
+@helper RenderHongDaoCategoryLine(CategorySimpleModel category, int level, bool isLast)
+{
+    <li>
+
+        @{
+            //subcategories
+            var subCategories = category.SubCategories.Where(x => x.IncludeInHongDaoMenu).ToList();
+
+            if (subCategories.Count > 0)
+            {                
+                <ul>
+                    @foreach (var subCategory in subCategories)
+                    {
+                        @RenderHongDaoCategoryLine(subCategory, level + 1, isLast)
+                    }
+                </ul>
+                <a href="#">@category.Name</a>
+            }
+            else
+            {
+                <a href="@Url.RouteUrl("Category", new { SeName = category.SeName })">@category.Name</a>
+            }
+        }
+    </li>
+    if (level == 0 && !isLast)
+    {
+        <li><span>|</span></li>
+    }
+}
+
+
+
+
+<!--banner-->
+<div class="banner">
+    <div class="banner-top">
+        <div class="col-sm-2  banner-top-icon">
+        </div>
+        <div class="col-sm-10 banner-top-menu">                
+            <ul>
+            @{                
+                foreach (var item in Model.Categories)
+                {
+                    var yijinCategories = item.SubCategories.Where(x => x.IncludeInYiJinMenu).ToList();
+                    int count = yijinCategories.Count;
+                    for (int i = 0; i < count; i++)
+                    {
+                        var category = yijinCategories[i];
+                        if ((i + 1) == count)
+                        {
+                            @RenderYiJinCategoryLine(category, 0, true);
+                        }
+                        else
+                        {
+                            @RenderYiJinCategoryLine(category, 0, false);
+                        }
+                    }
+                }
+            }
+            
+            </ul>
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="banner-pic">
+        @Html.Widget("home_page_top")
+        <div class="clearfix"> </div>
+    </div>
+    <div class="banner-foot">
+        <div class="col-md-10 banner-foot-menu">
+            <ul>
+                @{                                       
+                    foreach (var item in Model.Categories)
+                    {
+                        var hongDaoCategories = item.SubCategories.Where(x => x.IncludeInHongDaoMenu).ToList();
+                        int count = hongDaoCategories.Count;
+                        for (int i = 0; i < count; i++)
+                        {
+                            var category = hongDaoCategories[i];
+                            if ((i + 1) == count)
+                            {
+                                @RenderHongDaoCategoryLine(category, 0, true);
+                            }
+                            else
+                            {
+                                @RenderHongDaoCategoryLine(category, 0, false);
+                            }
+                        }
+                    }
+                }
+                
+            </ul>
+        </div>
+        <div class="col-md-2 banner-foot-icon"></div>
+        <div class="clearfix"> </div>
+    </div>
+</div>
+<!--//banner-->

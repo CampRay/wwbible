@@ -1,0 +1,24 @@
+﻿@model ProductDetailsModel
+@using Nop.Core.Domain.Seo;
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Models.Catalog;
+
+<div class="content">
+    <div class="content-body">
+        @*description*@
+        @if (!String.IsNullOrWhiteSpace(Model.FullDescription))
+            {
+            <div class="content-description">
+                @Html.Raw(Model.FullDescription)
+            </div>
+        }
+    </div>
+    <div class="content-body">
+        <iframe src="@Url.Action("NewsletterSubscription", "Newsletter")" id="iframepage" width="100%" height="580px" frameborder="0" scrolling="yes"></iframe>
+    </div>
+
+</div>
+
+
+
+

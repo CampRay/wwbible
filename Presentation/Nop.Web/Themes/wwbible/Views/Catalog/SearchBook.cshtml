@@ -1,0 +1,75 @@
+﻿@model SearchBookModel
+@using Nop.Core.Domain.Seo;
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Models.Catalog;
+@{
+    Html.AppendScriptParts("~/Scripts/jQuery.resizeEnd.min.js");
+    Html.AppendScriptParts("~/Scripts/jquery.validate.unobtrusive.min.js");
+    Html.AppendScriptParts("~/Scripts/jquery.validate.min.js");
+    Html.AppendScriptParts("~/Scripts/jquery-1.10.2.min.js");
+    int versesCount = Model.Verses.Count;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    @*This is used so that themes can inject content into the header*@
+    @Html.Partial("Head")
+    @Html.NopCssFiles(this.Url, ResourceLocation.Head)
+    @Html.NopScripts(this.Url, ResourceLocation.Head)
+    <script>
+
+        var ifm = window.parent.document.getElementById('iframepage');
+        ifm.height = 580;
+
+        $(function () {
+            function changeFrameHeight() {
+                var ifm = window.parent.document.getElementById('iframepage');
+                if (ifm.height != document.body.scrollHeight) {
+                    ifm.height = document.body.scrollHeight;
+                }
+            }
+
+            $(window).resizeEnd({
+                delay: 100
+            }, function () {
+                changeFrameHeight();
+            });
+
+            changeFrameHeight();
+            $(".verse-title").on("click", function () {
+                var leftArrow = window.parent.document.getElementById("left-next-page");
+                var rightArrow = window.parent.document.getElementById("right-next-page");
+                var bookName = window.parent.document.getElementById("book-name");
+                $(bookName).text($(this).attr("data"));
+                window.parent.curPageUrl = $(this).attr("href");
+                window.parent.currentCategoryId = $(this).attr("cid");
+                $(leftArrow).show();
+                $(rightArrow).show();
+            });
+            
+        });
+    </script>
+</head>
+<body style="background:none;">
+    <div style="height:40px;">檢索「<span>@Model.q</span>」結果：<span>@versesCount</span>節（<span>@Model.BibleName</span>）</div>
+    <div class="verse-list">
+        @foreach (var item in Model.Verses)
+        {
+            var title = item.BookName + " " + item.Chapter;
+            if (!string.IsNullOrEmpty(item.VerseNo))
+            {
+                title += " 第" + item.VerseNo + "節";
+            }
+        <div style="padding:10px 0;">            
+            <div>
+                <a class="verse-title" href="@item.BookUrl" data="@item.BookName" cid="@item.CategoryId">@title</a>
+            </div>
+            <div>
+                @Html.Raw(item.VerseText)
+            </div>                                   
+        </div>
+        }
+ 
+    </div>
+</body>
+</html>

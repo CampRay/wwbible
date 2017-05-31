@@ -1,0 +1,12 @@
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PayPalDirect\Views\PaymentPayPalDirect\Configure.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PayPalDirect\Views\PaymentPayPalDirect\PaymentInfo.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PayPalDirect\web.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PayPalDirect\Description.txt
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PayPalDirect\logo.jpg
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PayPalDirect\Nop.Plugin.Payments.PayPalDirect.dll.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PayPalDirect\Nop.Plugin.Payments.PayPalDirect.dll
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.PayPalDirect\Nop.Plugin.Payments.PayPalDirect.pdb
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Payments.PayPalDirect\obj\Debug\Nop.Plugin.Payments.PayPalDirect.csproj.App.config
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Payments.PayPalDirect\obj\Debug\Nop.Plugin.Payments.PayPalDirect.csprojResolveAssemblyReference.cache
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Payments.PayPalDirect\obj\Debug\Nop.Plugin.Payments.PayPalDirect.dll
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Payments.PayPalDirect\obj\Debug\Nop.Plugin.Payments.PayPalDirect.pdb

@@ -1,0 +1,8 @@
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\ExchangeRate.EcbExchange\Description.txt
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\ExchangeRate.EcbExchange\logo.jpg
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\ExchangeRate.EcbExchange\Nop.Plugin.ExchangeRate.EcbExchange.dll.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\ExchangeRate.EcbExchange\Nop.Plugin.ExchangeRate.EcbExchange.dll
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\ExchangeRate.EcbExchange\Nop.Plugin.ExchangeRate.EcbExchange.pdb
+D:\NewGit\wwbible\Plugins\Nop.Plugin.ExchangeRate.EcbExchange\obj\Debug\Nop.Plugin.ExchangeRate.EcbExchange.csproj.App.config
+D:\NewGit\wwbible\Plugins\Nop.Plugin.ExchangeRate.EcbExchange\obj\Debug\Nop.Plugin.ExchangeRate.EcbExchange.dll
+D:\NewGit\wwbible\Plugins\Nop.Plugin.ExchangeRate.EcbExchange\obj\Debug\Nop.Plugin.ExchangeRate.EcbExchange.pdb

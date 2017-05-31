@@ -1,0 +1,21 @@
+﻿<div class="header">   
+    <div class="header-top">
+        @Html.Action("LanguageSelector", "Common")        
+    </div>
+    <div class="header-logo">
+        <div class="logo">
+            @Html.Action("Logo", "Common")
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="header-search">
+        <div class="search">
+            @Html.Action("SearchBox", "Catalog")
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="top-nav">
+        @Html.Action("TopMenu", "Catalog")        
+    </div>
+
+</div>

@@ -1,0 +1,2 @@
+DataProvider: sqlserver
+DataConnectionString: Data Source=203.124.11.50;Initial Catalog=wwbible;Integrated Security=False;Persist Security Info=False;User ID=sa;Password=Campray@225

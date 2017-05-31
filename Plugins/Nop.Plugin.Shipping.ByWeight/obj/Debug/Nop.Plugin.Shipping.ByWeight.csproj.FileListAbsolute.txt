@@ -1,0 +1,13 @@
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Views\ShippingByWeight\Configure.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Views\ShippingByWeight\EditPopup.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Views\ShippingByWeight\_CreateOrUpdate.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Views\ShippingByWeight\AddPopup.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.ByWeight\web.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Description.txt
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.ByWeight\logo.jpg
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Nop.Plugin.Shipping.ByWeight.dll.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Nop.Plugin.Shipping.ByWeight.dll
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Shipping.ByWeight\Nop.Plugin.Shipping.ByWeight.pdb
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Shipping.ByWeight\obj\Debug\Nop.Plugin.Shipping.ByWeight.csproj.App.config
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Shipping.ByWeight\obj\Debug\Nop.Plugin.Shipping.ByWeight.dll
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Shipping.ByWeight\obj\Debug\Nop.Plugin.Shipping.ByWeight.pdb

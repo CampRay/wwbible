@@ -1,0 +1,12 @@
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Views\PaymentCheckMoneyOrder\Configure.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Views\PaymentCheckMoneyOrder\PaymentInfo.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\web.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Description.txt
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\logo.jpg
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Nop.Plugin.Payments.CheckMoneyOrder.dll.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Nop.Plugin.Payments.CheckMoneyOrder.dll
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Payments.CheckMoneyOrder\Nop.Plugin.Payments.CheckMoneyOrder.pdb
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Payments.CheckMoneyOrder\obj\Debug\Nop.Plugin.Payments.CheckMoneyOrder.csproj.App.config
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Payments.CheckMoneyOrder\obj\Debug\Nop.Plugin.Payments.CheckMoneyOrder.dll
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Payments.CheckMoneyOrder\obj\Debug\Nop.Plugin.Payments.CheckMoneyOrder.pdb
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Payments.CheckMoneyOrder\obj\Debug\Nop.Plugin.Payments.CheckMoneyOrder.csprojResolveAssemblyReference.cache

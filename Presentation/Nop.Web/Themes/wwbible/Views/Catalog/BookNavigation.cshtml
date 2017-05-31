@@ -1,0 +1,35 @@
+﻿@model CategoryNavigationModel
+@using Nop.Web.Models.Catalog;
+
+
+@if (Model.Categories.Count > 0)
+{
+    <table width="100%" style="padding:40px 0;">
+        <tbody>
+            <tr>
+            @foreach (var category in Model.Categories)
+            {            
+                <td width="20%" align="center" valign="top" style="max-width:140px">
+                    <div>
+                        <ul class="book-group">
+                            <li class="book-group-title">@category.Name</li>
+                            @foreach (var item in category.SubCategories)
+                            {
+                                <li class="book-group-item" data="@item.Id">
+                                    <span>@item.Name</span>
+                                    <div class="book-section">
+                                        <div class="book-section-row">                                                                                       
+                                        </div>                                        
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                        
+                    </div>
+                </td>                                       
+            }
+            </tr>
+        </tbody>        
+    </table>
+}
+

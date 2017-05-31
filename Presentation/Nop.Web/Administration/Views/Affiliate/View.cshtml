@@ -1,0 +1,92 @@
+﻿@{
+    Layout = "~/Administration/Views/Shared/_AdminPopupLayout.cshtml";
+
+    var popupGridPageSize = EngineContext.Current.Resolve<Nop.Core.Domain.Common.AdminAreaSettings>().PopupGridPageSize;
+
+    //page title
+    ViewBag.Title = T("Admin.Promotions.Affiliate.Lectures").Text;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("Admin.Promotions.Affiliate.Lectures")
+        </h1>
+        <div class="pull-right">
+            &nbsp;
+        </div>
+    </div>    
+
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">               
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="products-grid"></div>
+
+                        <script>
+                            $(document).ready(function () {
+                                $("#products-grid").kendoGrid({
+                                    dataSource: {
+                                        type: "json",
+                                        transport: {
+                                            read: {
+                                                url: "@Html.Raw(Url.Action("LecturePopupList", "Affiliate"))",
+                                                type: "POST",
+                                                dataType: "json",
+                                                data: addAntiForgeryToken({id:@ViewData["AffiliateId"]})
+                                            }
+                                        },
+                                        schema: {
+                                            data: "Data",
+                                            total: "Total",
+                                            errors: "Errors"
+                                        },
+                                        error: function(e) {
+                                            display_kendoui_grid_error(e);
+                                            // Cancel the changes
+                                            this.cancelChanges();
+                                        },
+                                        pageSize: @(popupGridPageSize),
+                                        serverPaging: true,
+                                        serverFiltering: true,
+                                        serverSorting: true
+                                    },
+                                    pageable: {
+                                        refresh: true
+                                    },
+                                    editable: {
+                                        confirmation: "@T("Admin.Common.DeleteConfirmation")",
+                                        mode: "inline"
+                                    },
+                                    scrollable: false,
+                                    columns: [{
+                                        field: "Id",
+                                        title: "Id",
+                                        width: 50
+                                    },{
+                                        field: "Name",
+                                        title: "@T("Admin.Catalog.Products.Fields.Name")",
+                                        width: 200
+                                    }, {
+                                        field: "ShortDescription",
+                                        title: "@T("Admin.Catalog.Products.Fields.ShortDescription")",
+                                        width: 200
+                                    }, {
+                                        field: "FullDescription",
+                                        title: "@T("Admin.Catalog.Products.Fields.FullDescription")",
+                                        width: 200,
+                                        template:"#=FullDescription#"
+                                     }]
+                                });
+                            });
+                        </script>
+                       
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+}

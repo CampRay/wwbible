@@ -1,0 +1,12 @@
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Feed.Froogle\Views\FeedFroogle\Configure.cshtml
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Feed.Froogle\Description.txt
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Feed.Froogle\web.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Feed.Froogle\Content\styles.css
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Feed.Froogle\logo.jpg
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Feed.Froogle\Nop.Plugin.Feed.Froogle.dll.config
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Feed.Froogle\Nop.Plugin.Feed.Froogle.dll
+D:\NewGit\wwbible\Presentation\Nop.Web\Plugins\Feed.Froogle\Nop.Plugin.Feed.Froogle.pdb
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Feed.Froogle\obj\Debug\Nop.Plugin.Feed.Froogle.csproj.App.config
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Feed.Froogle\obj\Debug\Nop.Plugin.Feed.Froogle.dll
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Feed.Froogle\obj\Debug\Nop.Plugin.Feed.Froogle.pdb
+D:\NewGit\wwbible\Plugins\Nop.Plugin.Feed.Froogle\obj\Debug\Nop.Plugin.Feed.Froogle.csprojResolveAssemblyReference.cache
