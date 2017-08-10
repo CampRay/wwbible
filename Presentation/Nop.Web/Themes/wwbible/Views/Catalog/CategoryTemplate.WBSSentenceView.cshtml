@@ -29,7 +29,7 @@
 @using Nop.Services.Seo;
 
 
-<div id="dialog-message" style="display:none;">
+<div id="pic-dialog" style="display:none;">
     
     <div style="width:100%;height:100%;text-align:center;margin:0;">
         <table border="0" width="100%" height="100%">
@@ -161,7 +161,7 @@
             else {
                 $(".right_btn").show();
             }
-            $("#dialog-message").dialog({
+            $("#pic-dialog").dialog({
                 height: $(".page-top").width()*0.7,
                 width: $(".page-top").width(),
                 modal: true
@@ -169,6 +169,14 @@
             $(".ui-dialog").css("background", "#330033");
             $(".ui-dialog").css("box-shadow", "0 0 0 5px #330033");
             $(".ui-dialog-titlebar").css("background", "#330033");
+            $(".ui-state-default").css("background", "none");
+            $(".ui-state-default").css("outline", "none");
+            $(".ui-state-default .ui-icon").css("background", "url(/Themes/wwbible/Content/images/dialog-close.png) no-repeat center");
+            $(".ui-state-default .ui-icon").css("width", "19px");
+            $(".ui-state-default .ui-icon").css("height", "19px");
+            $(".ui-dialog-titlebar-close").css("width", "19px");
+            $(".ui-dialog-titlebar-close").css("height", "19px");
+            
             $(".ui-button-text").hide();
             
         });
@@ -191,7 +199,7 @@
             else {
                 $(".right_btn").show();
             }
-            $("#dialog-message").dialog({
+            $("#pic-dialog").dialog({
                 height: $(".page-top").width() * 0.7,
                 width: $(".page-top").width(),
                 modal: true
@@ -199,6 +207,13 @@
             $(".ui-dialog").css("background", "#330033");
             $(".ui-dialog").css("box-shadow", "0 0 0 5px #330033");
             $(".ui-dialog-titlebar").css("background", "#330033");
+            $(".ui-state-default").css("background", "none");
+            $(".ui-state-default").css("outline", "none");
+            $(".ui-state-default .ui-icon").css("background", "url(/Themes/wwbible/Content/images/dialog-close.png) no-repeat center");
+            $(".ui-state-default .ui-icon").css("width", "19px");
+            $(".ui-state-default .ui-icon").css("height", "19px");
+            $(".ui-dialog-titlebar-close").css("width", "19px");
+            $(".ui-dialog-titlebar-close").css("height", "19px");
             $(".ui-button-text").hide();
 
         });
