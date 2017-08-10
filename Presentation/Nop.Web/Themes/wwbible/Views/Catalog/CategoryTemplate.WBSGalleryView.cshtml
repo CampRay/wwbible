@@ -1,0 +1,247 @@
+﻿@model CategoryModel
+@{
+    Layout = "~/Views/Shared/_ColumnsOne.cshtml";
+
+    //title
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
+    //meta
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+    //page class
+    Html.AppendPageCssClassParts("html-category-page");
+
+    int currentCategoryId = 0;
+    if (Url.RequestContext.RouteData.Values["controller"].ToString().Equals("catalog", StringComparison.InvariantCultureIgnoreCase) &&
+        Url.RequestContext.RouteData.Values["action"].ToString().Equals("category", StringComparison.InvariantCultureIgnoreCase))
+    {
+        currentCategoryId = Convert.ToInt32(Url.RequestContext.RouteData.Values["categoryId"].ToString());
+    }
+
+    var categoryService = EngineContext.Current.Resolve<ICategoryService>();
+    var bookCategoryList = categoryService.GetAllCategoriesByParentCategoryId(Model.CategoryBreadcrumb[1].Id);
+    string categoryName = "";
+}
+@using Nop.Core.Domain.Common;
+@using Nop.Core.Domain.Seo;
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Models.Catalog;
+@using Nop.Services.Catalog;
+@using Nop.Services.Seo;
+
+
+<div class="page-top">
+    <div class="page-top-body">
+        <div class="col-sm-6 page-top-left">
+            <span class="page-title">@Model.CategoryBreadcrumb[1].Name</span>
+        </div>
+        <div class="col-sm-6 page-top-right">            
+            <select class="page-top-select" onchange="javascript:window.location.href = this.value;">
+                <option value="">---按聖地區域分類---</option>
+                
+                @foreach (var bookCategory in bookCategoryList)
+                {
+                    if (bookCategory.Id == Model.Id)
+                    {
+                        categoryName = bookCategory.Name;
+                        <option selected value="@Url.RouteUrl("Category", new { SeName = bookCategory.GetSeName() })">@bookCategory.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@Url.RouteUrl("Category", new { SeName = bookCategory.GetSeName() })">@bookCategory.Name</option>
+                    }
+                }
+            </select>            
+        </div>
+        <div class="clearfix"> </div>
+    </div>
+    <div class="page-top-line" style="padding-bottom: 0;">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10" style="padding:0; ">
+            <hr style="border-color:#d2d2d2;margin:3px 0 0 0;">
+            <hr style="border-color:#aa89bd;margin:3px 0 0 50px;">
+            <hr style="border-color:#d2d2d2;margin:3px 0 0 100px;">
+        </div>
+    </div>
+</div>
+
+<div class="category-page">
+    <div class="content">
+        <div class="content-title">
+            @if (!String.IsNullOrWhiteSpace(Model.Description))
+            {
+                <div class="category-description">
+                    @Html.Raw(Model.Description)
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="col-md-2 page-left" style="padding-right:0;">
+    <div class="words-group">        
+        <div class="group-title" style="cursor:pointer;">@categoryName</div>
+        <div class="group-content">
+            @for (int i = 0; i < Model.SubCategories.Count; i++)
+            {
+                <div style="margin:5px 0;"  data="@Model.SubCategories[i].Id"><a>@Model.SubCategories[i].Name</a></div>
+            }                
+        </div>        
+    </div>
+</div>
+<div class="col-md-10" style="margin-top:40px;padding-left:5px;">    
+    <div class="content" style="border-left: 1px solid #d2d2d2;padding:0 20px;">                        
+        @if (Model.SubCategories.Count > 0)
+        {
+            <div class="product-grid">
+                <div class="item-grid">
+                   @for (int i = 0; i < Model.SubCategories.Count; i++)
+                   {                       
+                        <div class="item-box">                            
+                            <div class="picture">
+                                <a href="#" title="@Model.SubCategories[i].Name" id="pic_@Model.SubCategories[i].Id" data="@Model.SubCategories[i].Id">
+                                    <img src="@Model.SubCategories[i].PictureModel.ImageUrl" width="100%" height="100%"/>
+                                </a>
+                            </div>                            
+                        </div>
+                    }
+                </div>
+            </div>            
+        }
+        
+        <div class="content-body" style="margin:0 5px 0 20px;display:none;">                      
+            <iframe src="" id="iframepage" width="100%" height="580" frameborder="0" scrolling="yes"></iframe>
+            <div id="left-next-page" class="left-next-page"></div>
+            <div id="right-next-page" class="right-next-page"></div>
+        </div>          
+    </div>
+</div>
+
+<div class="col-md-12 page-bottom-line"></div>
+
+<script>
+    function changeFrameSrc(url) {
+        var ifm = document.getElementById("iframepage");
+        ifm.src = url;
+    }
+
+    $(function () {
+        var ind = 0;
+        var urlArray = new Array();
+        var total = $(".item-grid>.item-box").length;
+
+        if ($(".page-top-select").val() == "" && $(".page-top-select>option").length > 1) {
+            var ele = $(".page-top-select>option")[1];
+            window.location.href = $(ele).attr("value");
+        }
+
+        $(".picture>a").css("height", $(".picture>a").width() * 0.7);
+        $(".left-next-page").hide();
+        $(".right-next-page").hide();
+        
+
+        $(".picture>a,.group-content>div").on("click", function () {
+            var categotyId = $(this).attr("data");
+            var postData = {
+                categoryId: categotyId
+            };
+            ind = 0;
+            urlArray = new Array();
+            //查询当前地区分类下所有图片文章的访问url
+            $.ajax({
+                cache: false,
+                type: 'POST',
+                url: '@Url.Action("CategoryProducts", "Catalog")',
+                data: postData,
+                dataType: 'json',
+                success: function (data) {                    
+                    $.each(data.Products, function (i, n) {
+                        urlArray.push(n.Url);                                                
+                    });
+
+                    if (urlArray.length > 0) {
+                        changeFrameSrc(urlArray[0]);
+                        if (ind == 0) {
+                            $(".left-next-page").hide();
+                        }
+                        else {
+                            $(".left-next-page").show();
+                        }
+                        if (ind == urlArray.length - 1) {
+                            $(".right-next-page").hide();
+                        }
+                        else {
+                            $(".right-next-page").show();
+                        }
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('由於系統原因，無法顯示文章內容，請稍候再次試！');
+                }
+            });
+                       
+
+            $(".product-grid").hide();
+            $(".content-body").show();
+            $(".group-content a").css("color", "black");
+            $(".group-content>div[data='" + categotyId + "']>a").css("color", "#f8d4ff ");
+
+        });
+
+        $(".group-title").mouseover(function () {            
+            $(this).css("color", "orange");
+        });
+        $(".group-title").mouseleave(function () {
+            $(this).css("color", "#cca966");
+        });
+
+        $(".group-title").on("click", function () {
+            $(".group-content a").css("color", "");
+            $(".product-grid").show();
+            $(".content-body").hide();
+        });
+
+        $(".group-content>div").mouseover(function(){
+            var index = parseInt($(this).attr("data"));
+            $(".picture").css("background-color", "white");
+            $("#pic_" + index).parent().css("background-color", "#ff6b6b  ");
+
+        });
+        $(".group-content>div").mouseleave(function () {
+            $(".picture").css("background-color", "white");
+        });
+
+        $(".left-next-page").on("click", function () {
+            ind--;
+            changeFrameSrc(urlArray[ind]);
+            if (ind == 0) {
+                $(".left-next-page").hide();
+            }
+            else {
+                $(".left-next-page").show();
+            }
+            if (ind == urlArray.length - 1) {
+                $(".right-next-page").hide();
+            }
+            else {
+                $(".right-next-page").show();
+            }
+        });
+        $(".right-next-page").on("click", function () {
+            ind++;
+            changeFrameSrc(urlArray[ind]);
+            if (ind == 0) {
+                $(".left-next-page").hide();
+            }
+            else {
+                $(".left-next-page").show();
+            }
+            if (ind == urlArray.length-1) {
+                $(".right-next-page").hide();
+            }
+            else {
+                $(".right-next-page").show();
+            }
+        });
+    });
+
+</script>

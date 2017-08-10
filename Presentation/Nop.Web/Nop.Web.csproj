@@ -654,6 +654,8 @@
     <Content Include="Themes\wwbible\Content\images\hongdou.png" />
     <Content Include="Themes\wwbible\Content\images\ie_warning.jpg" />
     <Content Include="Themes\wwbible\Content\images\last.png" />
+    <Content Include="Themes\wwbible\Content\images\left-hover.png" />
+    <Content Include="Themes\wwbible\Content\images\left.png" />
     <Content Include="Themes\wwbible\Content\images\leftpage-hover.png" />
     <Content Include="Themes\wwbible\Content\images\leftpage.png" />
     <Content Include="Themes\wwbible\Content\images\line.png" />
@@ -672,6 +674,8 @@
     <Content Include="Themes\wwbible\Content\images\remove_.png" />
     <Content Include="Themes\wwbible\Content\images\reply.png" />
     <Content Include="Themes\wwbible\Content\images\return.png" />
+    <Content Include="Themes\wwbible\Content\images\right-hover.png" />
+    <Content Include="Themes\wwbible\Content\images\right.png" />
     <Content Include="Themes\wwbible\Content\images\rightpage-hover.png" />
     <Content Include="Themes\wwbible\Content\images\rightpage.png" />
     <Content Include="Themes\wwbible\Content\images\rss.png" />
@@ -1145,6 +1149,9 @@
     <Content Include="Themes\wwbible\Views\Customer\PasswordRecovery.cshtml" />
     <Content Include="Themes\wwbible\Views\Customer\PasswordRecoveryConfirm.cshtml" />
     <Content Include="Themes\wwbible\Views\Catalog\SearchBook.cshtml" />
+    <Content Include="Themes\wwbible\Views\Catalog\CategoryTemplate.WBSSentenceView.cshtml" />
+    <Content Include="Themes\wwbible\Views\Catalog\CategoryTemplate.WBSHolyLandView.cshtml" />
+    <Content Include="Themes\wwbible\Views\Catalog\CategoryTemplate.WBSGalleryView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Vedios\uploaded\" />

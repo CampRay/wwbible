@@ -24,12 +24,12 @@
             function changeFrameHeight() {
                 var ifm = window.parent.document.getElementById('iframepage');                
                 if (ifm.height != document.body.scrollHeight) {
-                    ifm.height = document.body.scrollHeight;
+                    ifm.height = document.body.scrollHeight+20;
                 }
             }
 
             $(window).resizeEnd({
-                delay: 100
+                delay: 200
             }, function () {
                 changeFrameHeight();
             });

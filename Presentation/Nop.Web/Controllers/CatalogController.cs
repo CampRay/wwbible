@@ -645,20 +645,20 @@ namespace Nop.Web.Controllers
                         Description = x.GetLocalized(y => y.Description)
                     };
 
-                    ////prepare picture model
-                    //var categoryPictureCacheKey = string.Format(ModelCacheEventConsumer.CATEGORY_PICTURE_MODEL_KEY, x.Id, pictureSize, true, _workContext.WorkingLanguage.Id, _webHelper.IsCurrentConnectionSecured(), _storeContext.CurrentStore.Id);
-                    //subCatModel.PictureModel = _cacheManager.Get(categoryPictureCacheKey, () =>
-                    //{
-                    //    var picture = _pictureService.GetPictureById(x.PictureId);
-                    //    var pictureModel = new PictureModel
-                    //    {
-                    //        FullSizeImageUrl = _pictureService.GetPictureUrl(picture),
-                    //        ImageUrl = _pictureService.GetPictureUrl(picture, pictureSize),
-                    //        Title = string.Format(_localizationService.GetResource("Media.Category.ImageLinkTitleFormat"), subCatModel.Name),
-                    //        AlternateText = string.Format(_localizationService.GetResource("Media.Category.ImageAlternateTextFormat"), subCatModel.Name)
-                    //    };
-                    //    return pictureModel;
-                    //});
+                    //prepare picture model
+                    var categoryPictureCacheKey = string.Format(ModelCacheEventConsumer.CATEGORY_PICTURE_MODEL_KEY, x.Id, pictureSize, true, _workContext.WorkingLanguage.Id, _webHelper.IsCurrentConnectionSecured(), _storeContext.CurrentStore.Id);
+                    subCatModel.PictureModel = _cacheManager.Get(categoryPictureCacheKey, () =>
+                    {
+                        var picture = _pictureService.GetPictureById(x.PictureId);
+                        var pictureModel = new PictureModel
+                        {
+                            FullSizeImageUrl = _pictureService.GetPictureUrl(picture),
+                            ImageUrl = _pictureService.GetPictureUrl(picture, pictureSize),
+                            Title = string.Format(_localizationService.GetResource("Media.Category.ImageLinkTitleFormat"), subCatModel.Name),
+                            AlternateText = string.Format(_localizationService.GetResource("Media.Category.ImageAlternateTextFormat"), subCatModel.Name)
+                        };
+                        return pictureModel;
+                    });
 
                     return subCatModel;
                 })
@@ -714,7 +714,7 @@ namespace Nop.Web.Controllers
             }
             //products
             var products = _productService.SearchProducts(categoryIds: categoryIds);
-            model.Products = PrepareProductOverviewModels(products).ToList();
+            model.Products = PrepareProductOverviewModels(products:products, preparePictureModel:true).ToList();
 
             model.PagingFilteringContext.LoadPagedList(products);
 
