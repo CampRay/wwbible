@@ -114,7 +114,7 @@
                    {                       
                         <div class="item-box">                            
                             <div class="picture">
-                                <a href="#" title="@Model.Products[i].Name" id="pic_@i" data="@i">
+                                <a href="" title="@Model.Products[i].Name" id="pic_@i" data="@i">
                                     @Html.Raw(Model.Products[i].FullDescription)                                    
                                 </a>
                                 <div class="sild-up-div" style="width:100%;height:30px;position: relative;left:0; bottom: -6px;padding:0;">
@@ -178,7 +178,7 @@
             $(".ui-dialog-titlebar-close").css("height", "19px");
             
             $(".ui-button-text").hide();
-            
+            return false;
         });
 
         $(".group-content>div").on("click", function () {
