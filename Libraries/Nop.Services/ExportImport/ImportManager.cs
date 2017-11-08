@@ -305,43 +305,12 @@ namespace Nop.Services.ExportImport
                 }
 
                 var manager = new PropertyManager<Product>(properties.ToArray());
-
-                //var attributProperties = new[]
-                //   {
-                //        new PropertyByName<ExportProductAttribute>("AttributeId"),
-                //        new PropertyByName<ExportProductAttribute>("AttributeName"),
-                //        new PropertyByName<ExportProductAttribute>("AttributeTextPrompt"),
-                //        new PropertyByName<ExportProductAttribute>("AttributeIsRequired"),
-                //        new PropertyByName<ExportProductAttribute>("AttributeControlType")
-                //        {
-                //            DropDownElements = AttributeControlType.TextBox.ToSelectList(useLocalization: false)
-                //        },
-                //        new PropertyByName<ExportProductAttribute>("AttributeDisplayOrder"), 
-                //        new PropertyByName<ExportProductAttribute>("ProductAttributeValueId"),
-                //        new PropertyByName<ExportProductAttribute>("ValueName"),
-                //        new PropertyByName<ExportProductAttribute>("AttributeValueType")
-                //        {
-                //            DropDownElements = AttributeValueType.Simple.ToSelectList(useLocalization: false)
-                //        },
-                //        new PropertyByName<ExportProductAttribute>("AssociatedProductId"),
-                //        new PropertyByName<ExportProductAttribute>("ColorSquaresRgb"),
-                //        new PropertyByName<ExportProductAttribute>("ImageSquaresPictureId"),
-                //        new PropertyByName<ExportProductAttribute>("PriceAdjustment"),
-                //        new PropertyByName<ExportProductAttribute>("WeightAdjustment"),
-                //        new PropertyByName<ExportProductAttribute>("Cost"),
-                //        new PropertyByName<ExportProductAttribute>("Quantity"),
-                //        new PropertyByName<ExportProductAttribute>("IsPreSelected"),
-                //        new PropertyByName<ExportProductAttribute>("DisplayOrder"),
-                //        new PropertyByName<ExportProductAttribute>("PictureId")
-                //    };
-
-                //var managerProductAttribute = new PropertyManager<ExportProductAttribute>(attributProperties);
-
+                
                 var endRow = 2;
-                var allCategoriesNames = new List<string>();
+                var allCategoriesIds = new List<int>();
                 var allSku = new List<string>();
 
-                var tempProperty = manager.GetProperty("Categories");
+                var tempProperty = manager.GetProperty("CategoryIds");
                 var categoryCellNum = tempProperty.Return(p => p.PropertyOrderPosition, -1);
 
                 //tempProperty = manager.GetProperty("SKU");
@@ -380,69 +349,33 @@ namespace Nop.Services.ExportImport
                     if (allColumnsAreEmpty)
                         break;
 
-                    //if (new[] { 1, 2 }.Select(cellNum => worksheet.Cells[endRow, cellNum]).All(cell => cell == null || cell.Value == null || String.IsNullOrEmpty(cell.Value.ToString())) && worksheet.Row(endRow).OutlineLevel == 0)
-                    //{
-                    //    var cellValue = worksheet.Cells[endRow, attributeIdCellNum].Value;
-                    //    try
-                    //    {
-                    //        var aid = cellValue.Return(Convert.ToInt32, -1);
-
-                    //        var productAttribute = _productAttributeService.GetProductAttributeById(aid);
-
-                    //        if (productAttribute != null)
-                    //            worksheet.Row(endRow).OutlineLevel = 1;
-                    //    }
-                    //    catch (FormatException)
-                    //    {
-                    //        if (cellValue.Return(cv => cv.ToString(), String.Empty) == "AttributeId")
-                    //            worksheet.Row(endRow).OutlineLevel = 1;
-                    //    }
-                    //}
-
-                    //if (worksheet.Row(endRow).OutlineLevel != 0)
-                    //{
-                    //    managerProductAttribute.ReadFromXlsx(worksheet, endRow, ExportProductAttribute.ProducAttributeCellOffset);
-                    //    if (!managerProductAttribute.IsCaption)
-                    //    {
-                    //        var aid = worksheet.Cells[endRow, attributeIdCellNum].Value.Return(Convert.ToInt32, -1);
-                    //        allAttributeIds.Add(aid);
-                    //    }
-
-                    //    endRow++;
-                    //    continue;
-                    //}
-
                     if (categoryCellNum > 0)
                     { 
                         var categoryIds = worksheet.Cells[endRow, categoryCellNum].Value.Return(p => p.ToString(), string.Empty);
 
                         if (!categoryIds.IsEmpty())
-                            allCategoriesNames.AddRange(categoryIds.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()));
+                            try
+                            {
+                                var idArr=categoryIds.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
+                                foreach (var idstr in idArr)
+                                {
+                                    int categoryId = Convert.ToInt32(idstr);
+                                    allCategoriesIds.Add(categoryId);
+                                }
+                                
+                            }
+                            catch { }
                     }
 
-                    //if (skuCellNum > 0)
-                    //{
-                    //    var sku = worksheet.Cells[endRow, skuCellNum].Value.Return(p => p.ToString(), string.Empty);
-
-                    //    if (!sku.IsEmpty())
-                    //        allSku.Add(sku);
-                    //}
-
-                    //if (manufacturerCellNum > 0)
-                    //{ 
-                    //    var manufacturerIds = worksheet.Cells[endRow, manufacturerCellNum].Value.Return(p => p.ToString(), string.Empty);
-                    //    if (!manufacturerIds.IsEmpty())
-                    //        allManufacturersNames.AddRange(manufacturerIds.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()));
-                    //}
-
+                    
                     endRow++;
                 }
 
                 //performance optimization, the check for the existence of the categories in one SQL request
-                var notExistingCategories = _categoryService.GetNotExistingCategories(allCategoriesNames.ToArray());
-                if (notExistingCategories.Any())
+                var notExistingSeNames = _categoryService.GetNotExistingCategories(allCategoriesIds.ToArray());
+                if (notExistingSeNames.Any())
                 {
-                    throw new ArgumentException(string.Format("The following category name(s) don't exist - {0}", string.Join(", ", notExistingCategories)));
+                    throw new ArgumentException(string.Format("The following category Id(s) don't exist - {0}", string.Join(", ", notExistingSeNames)));
                 }
 
                 ////performance optimization, the check for the existence of the manufacturers in one SQL request
@@ -466,7 +399,8 @@ namespace Nop.Services.ExportImport
                 //var allProductsCategoryIds = _categoryService.GetProductCategoryIds(allProductsBySku.Select(p => p.Id).ToArray());
 
                 //performance optimization, load all categories in one SQL request
-                var allCategories = _categoryService.GetAllCategories(showHidden: true);
+//                var allCategories = _categoryService.GetAllCategories(showHidden: true);
+                
 
                 ////performance optimization, load all manufacturers IDs for products in one SQL request
                 //var allProductsManufacturerIds = _manufacturerService.GetProductManufacturerIds(allProductsBySku.Select(p => p.Id).ToArray());
@@ -477,120 +411,11 @@ namespace Nop.Services.ExportImport
                 //product to import images
                 var productPictureMetadata = new List<ProductPictureMetadata>();
 
-                Product lastLoadedProduct = null;
+                //Product lastLoadedProduct = null;
 
                 for (var iRow = 2; iRow < endRow; iRow++)
                 {
-                    ////imports product attributes
-                    //if (worksheet.Row(iRow).OutlineLevel != 0)
-                    //{
-                    //    if (_catalogSettings.ExportImportProductAttributes)
-                    //    {
-                    //        managerProductAttribute.ReadFromXlsx(worksheet, iRow,
-                    //            ExportProductAttribute.ProducAttributeCellOffset);
-                    //        if (lastLoadedProduct == null || managerProductAttribute.IsCaption)
-                    //            continue;
-
-                    //        var productAttributeId = managerProductAttribute.GetProperty("AttributeId").IntValue;
-                    //        var attributeControlTypeId = managerProductAttribute.GetProperty("AttributeControlType").IntValue;
-                            
-                    //        var productAttributeValueId = managerProductAttribute.GetProperty("ProductAttributeValueId").IntValue;
-                    //        var associatedProductId = managerProductAttribute.GetProperty("AssociatedProductId").IntValue;
-                    //        var valueName = managerProductAttribute.GetProperty("ValueName").StringValue;
-                    //        var attributeValueTypeId = managerProductAttribute.GetProperty("AttributeValueType").IntValue;
-                    //        var colorSquaresRgb = managerProductAttribute.GetProperty("ColorSquaresRgb").StringValue;
-                    //        var imageSquaresPictureId = managerProductAttribute.GetProperty("ImageSquaresPictureId").IntValue;
-                    //        var priceAdjustment = managerProductAttribute.GetProperty("PriceAdjustment").DecimalValue;
-                    //        var weightAdjustment = managerProductAttribute.GetProperty("WeightAdjustment").DecimalValue;
-                    //        var cost = managerProductAttribute.GetProperty("Cost").DecimalValue;
-                    //        var quantity = managerProductAttribute.GetProperty("Quantity").IntValue;
-                    //        var isPreSelected = managerProductAttribute.GetProperty("IsPreSelected").BooleanValue;
-                    //        var displayOrder = managerProductAttribute.GetProperty("DisplayOrder").IntValue;
-                    //        var pictureId = managerProductAttribute.GetProperty("PictureId").IntValue;
-                    //        var textPrompt = managerProductAttribute.GetProperty("AttributeTextPrompt").StringValue;
-                    //        var isRequired = managerProductAttribute.GetProperty("AttributeIsRequired").BooleanValue;
-                    //        var attributeDisplayOrder = managerProductAttribute.GetProperty("AttributeDisplayOrder").IntValue;
-
-                    //        var productAttributeMapping = lastLoadedProduct.ProductAttributeMappings.FirstOrDefault(pam => pam.ProductAttributeId == productAttributeId);
-                            
-                    //        if (productAttributeMapping == null)
-                    //        {
-                    //            //insert mapping
-                    //            productAttributeMapping = new ProductAttributeMapping
-                    //            {
-                    //                ProductId = lastLoadedProduct.Id,
-                    //                ProductAttributeId = productAttributeId,
-                    //                TextPrompt = textPrompt,
-                    //                IsRequired = isRequired,
-                    //                AttributeControlTypeId = attributeControlTypeId,
-                    //                DisplayOrder = attributeDisplayOrder
-                    //            };
-                    //            _productAttributeService.InsertProductAttributeMapping(productAttributeMapping);
-                    //        }
-                    //        else
-                    //        {
-                    //            productAttributeMapping.AttributeControlTypeId = attributeControlTypeId;
-                    //            productAttributeMapping.TextPrompt = textPrompt;
-                    //            productAttributeMapping.IsRequired = isRequired;
-                    //            productAttributeMapping.DisplayOrder = attributeDisplayOrder;
-                    //            _productAttributeService.UpdateProductAttributeMapping(productAttributeMapping);
-                    //        }
-
-                    //        var pav = _productAttributeService.GetProductAttributeValueById(productAttributeValueId);
-
-                    //        var attributeControlType = (AttributeControlType) attributeControlTypeId;
-
-                    //        if (pav == null)
-                    //        {
-                    //            switch (attributeControlType)
-                    //            {
-                    //                case AttributeControlType.Datepicker:
-                    //                case AttributeControlType.FileUpload:
-                    //                case AttributeControlType.MultilineTextbox:
-                    //                case AttributeControlType.TextBox:
-                    //                    continue;
-                    //            }
-
-                    //            pav = new ProductAttributeValue
-                    //            {
-                    //                ProductAttributeMappingId = productAttributeMapping.Id,
-                    //                AttributeValueType = (AttributeValueType) attributeValueTypeId,
-                    //                AssociatedProductId = associatedProductId,
-                    //                Name = valueName,
-                    //                PriceAdjustment = priceAdjustment,
-                    //                WeightAdjustment = weightAdjustment,
-                    //                Cost = cost,
-                    //                IsPreSelected = isPreSelected,
-                    //                DisplayOrder = displayOrder,
-                    //                ColorSquaresRgb = colorSquaresRgb,
-                    //                ImageSquaresPictureId = imageSquaresPictureId,
-                    //                Quantity = quantity,
-                    //                PictureId = pictureId
-                    //            };
-
-                    //            _productAttributeService.InsertProductAttributeValue(pav);
-                    //        }
-                    //        else
-                    //        {
-                    //            pav.AttributeValueTypeId = attributeValueTypeId;
-                    //            pav.AssociatedProductId = associatedProductId;
-                    //            pav.Name = valueName;
-                    //            pav.ColorSquaresRgb = colorSquaresRgb;
-                    //            pav.ImageSquaresPictureId = imageSquaresPictureId;
-                    //            pav.PriceAdjustment = priceAdjustment;
-                    //            pav.WeightAdjustment = weightAdjustment;
-                    //            pav.Cost = cost;
-                    //            pav.Quantity = quantity;
-                    //            pav.IsPreSelected = isPreSelected;
-                    //            pav.DisplayOrder = displayOrder;
-                    //            pav.PictureId = pictureId;
-
-                    //            _productAttributeService.UpdateProductAttributeValue(pav);
-                    //        }
-                    //    }
-                    //    continue;
-                    //}
-
+                    
                     manager.ReadFromXlsx(worksheet, iRow);
 
                     //var product = skuCellNum > 0 ? allProductsBySku.FirstOrDefault(p => p.Sku == manager.GetProperty("SKU").StringValue) : null;
@@ -628,78 +453,27 @@ namespace Nop.Services.ExportImport
                             case "Name":
                                 product.Name = property.StringValue;
                                 break;
-                            case "ShortDescription":
+                            case "GroupName":
                                 product.ShortDescription = property.StringValue;
                                 break;
                             case "FullDescription":
                                 product.FullDescription = property.StringValue;
                                 break;
-                            //case "Vendor":
-                            //    product.VendorId = property.IntValue;
-                            //    break;
+                            
                             case "PageTemplate":
                                 product.ProductTemplateId = property.IntValue;
                                 break;
-                            //case "ShowOnHomePage":
-                            //    product.ShowOnHomePage = property.BooleanValue;
-                            //    break;
-                            //case "MetaKeywords":
-                            //    product.MetaKeywords = property.StringValue;
-                            //    break;
-                            //case "MetaDescription":
-                            //    product.MetaDescription = property.StringValue;
-                            //    break;
-                            //case "MetaTitle":
-                            //    product.MetaTitle = property.StringValue;
-                            //    break;
-                            //case "AllowCustomerReviews":
-                            //    product.AllowCustomerReviews = property.BooleanValue;
-                            //    break;
+                            
                             case "Published":
                                 product.Published = property.BooleanValue;
                                 break;
-                            //case "SKU":
-                            //    product.Sku = property.StringValue;
-                            //    break;
-                            //case "ManufacturerPartNumber":
-                            //    product.ManufacturerPartNumber = property.StringValue;
-                            //    break;
-                            //case "Gtin":
-                            //    product.Gtin = property.StringValue;
-                            //    break;
-                            //case "IsGiftCard":
-                            //    product.IsGiftCard = property.BooleanValue;
-                            //    break;
-                            //case "GiftCardType":
-                            //    product.GiftCardTypeId = property.IntValue;
-                            //    break;
-                            //case "OverriddenGiftCardAmount":
-                            //    product.OverriddenGiftCardAmount = property.DecimalValue;
-                            //    break;
-                            //case "RequireOtherProducts":
-                            //    product.RequireOtherProducts = property.BooleanValue;
-                            //    break;
-                            //case "RequiredProductIds":
-                            //    product.RequiredProductIds = property.StringValue;
-                            //    break;
-                            //case "AutomaticallyAddRequiredProducts":
-                            //    product.AutomaticallyAddRequiredProducts = property.BooleanValue;
-                            //    break;
+                            
                             case "HasPdfDownload":
                                 product.IsDownload = property.BooleanValue;
                                 break;
                             case "PdfDownloadId":
                                 product.DownloadId = property.IntValue;
-                                break;
-                            //case "UnlimitedDownloads":
-                            //    product.UnlimitedDownloads = property.BooleanValue;
-                            //    break;
-                            //case "MaxNumberOfDownloads":
-                            //    product.MaxNumberOfDownloads = property.IntValue;
-                            //    break;
-                            //case "DownloadActivationType":
-                            //    product.DownloadActivationTypeId = property.IntValue;
-                            //    break;
+                                break;                            
                             case "HasVedioDownload":
                                 product.HasSampleDownload = property.BooleanValue;
                                 break;
@@ -709,188 +483,12 @@ namespace Nop.Services.ExportImport
                             case "DisplayOrder":
                                 product.DisplayOrder = property.IntValue;
                                 break;
-                                //case "HasUserAgreement":
-                                //    product.HasUserAgreement = property.BooleanValue;
-                                //    break;
-                                //case "UserAgreementText":
-                                //    product.UserAgreementText = property.StringValue;
-                                //    break;
-                                //case "IsRecurring":
-                                //    product.IsRecurring = property.BooleanValue;
-                                //    break;
-                                //case "RecurringCycleLength":
-                                //    product.RecurringCycleLength = property.IntValue;
-                                //    break;
-                                //case "RecurringCyclePeriod":
-                                //    product.RecurringCyclePeriodId = property.IntValue;
-                                //    break;
-                                //case "RecurringTotalCycles":
-                                //    product.RecurringTotalCycles = property.IntValue;
-                                //    break;
-                                //case "IsRental":
-                                //    product.IsRental = property.BooleanValue;
-                                //    break;
-                                //case "RentalPriceLength":
-                                //    product.RentalPriceLength = property.IntValue;
-                                //    break;
-                                //case "RentalPricePeriod":
-                                //    product.RentalPricePeriodId = property.IntValue;
-                                //    break;
-                                //case "IsShipEnabled":
-                                //    product.IsShipEnabled = property.BooleanValue;
-                                //    break;
-                                //case "IsFreeShipping":
-                                //    product.IsFreeShipping = property.BooleanValue;
-                                //    break;
-                                //case "ShipSeparately":
-                                //    product.ShipSeparately = property.BooleanValue;
-                                //    break;
-                                //case "AdditionalShippingCharge":
-                                //    product.AdditionalShippingCharge = property.DecimalValue;
-                                //    break;
-                                //case "DeliveryDate":
-                                //    product.DeliveryDateId = property.IntValue;
-                                //    break;
-                                //case "IsTaxExempt":
-                                //    product.IsTaxExempt = property.BooleanValue;
-                                //    break;
-                                //case "TaxCategory":
-                                //    product.TaxCategoryId = property.IntValue;
-                                //    break;
-                                //case "IsTelecommunicationsOrBroadcastingOrElectronicServices":
-                                //    product.IsTelecommunicationsOrBroadcastingOrElectronicServices = property.BooleanValue;
-                                //    break;
-                                //case "ManageInventoryMethod":
-                                //    product.ManageInventoryMethodId = property.IntValue;
-                                //    break;
-                                //case "UseMultipleWarehouses":
-                                //    product.UseMultipleWarehouses = property.BooleanValue;
-                                //    break;
-                                //case "WarehouseId":
-                                //    product.WarehouseId = property.IntValue;
-                                //    break;
-                                //case "StockQuantity":
-                                //    product.StockQuantity = property.IntValue;
-                                //    break;
-                                //case "DisplayStockAvailability":
-                                //    product.DisplayStockAvailability = property.BooleanValue;
-                                //    break;
-                                //case "DisplayStockQuantity":
-                                //    product.DisplayStockQuantity = property.BooleanValue;
-                                //    break;
-                                //case "MinStockQuantity":
-                                //    product.MinStockQuantity = property.IntValue;
-                                //    break;
-                                //case "LowStockActivity":
-                                //    product.LowStockActivityId = property.IntValue;
-                                //    break;
-                                //case "NotifyAdminForQuantityBelow":
-                                //    product.NotifyAdminForQuantityBelow = property.IntValue;
-                                //    break;
-                                //case "BackorderModeId":
-                                //    product.BackorderModeId = property.IntValue;
-                                //    break;
-                                //case "AllowBackInStockSubscriptions":
-                                //    product.AllowBackInStockSubscriptions = property.BooleanValue;
-                                //    break;
-                                //case "OrderMinimumQuantity":
-                                //    product.OrderMinimumQuantity = property.IntValue;
-                                //    break;
-                                //case "OrderMaximumQuantity":
-                                //    product.OrderMaximumQuantity = property.IntValue;
-                                //    break;
-                                //case "AllowedQuantities":
-                                //    product.AllowedQuantities = property.StringValue;
-                                //    break;
-                                //case "AllowAddingOnlyExistingAttributeCombinations":
-                                //    product.AllowAddingOnlyExistingAttributeCombinations = property.BooleanValue;
-                                //    break;
-                                //case "NotReturnable":
-                                //    product.NotReturnable = property.BooleanValue;
-                                //    break;
-                                //case "DisableBuyButton":
-                                //    product.DisableBuyButton = property.BooleanValue;
-                                //    break;
-                                //case "DisableWishlistButton":
-                                //    product.DisableWishlistButton = property.BooleanValue;
-                                //    break;
-                                //case "AvailableForPreOrder":
-                                //    product.AvailableForPreOrder = property.BooleanValue;
-                                //    break;
-                                //case "PreOrderAvailabilityStartDateTimeUtc":
-                                //    product.PreOrderAvailabilityStartDateTimeUtc = property.DateTimeNullable;
-                                //    break;
-                                //case "CallForPrice":
-                                //    product.CallForPrice = property.BooleanValue;
-                                //    break;
-                                //case "Price":
-                                //    product.Price = property.DecimalValue;
-                                //    break;
-                                //case "OldPrice":
-                                //    product.OldPrice = property.DecimalValue;
-                                //    break;
-                                //case "ProductCost":
-                                //    product.ProductCost = property.DecimalValue;
-                                //    break;
-                                //case "SpecialPrice":
-                                //    product.SpecialPrice = property.DecimalValueNullable;
-                                //    break;
-                                //case "SpecialPriceStartDateTimeUtc":
-                                //    product.SpecialPriceStartDateTimeUtc = property.DateTimeNullable;
-                                //    break;
-                                //case "SpecialPriceEndDateTimeUtc":
-                                //    product.SpecialPriceEndDateTimeUtc = property.DateTimeNullable;
-                                //    break;
-                                //case "CustomerEntersPrice":
-                                //    product.CustomerEntersPrice = property.BooleanValue;
-                                //    break;
-                                //case "MinimumCustomerEnteredPrice":
-                                //    product.MinimumCustomerEnteredPrice = property.DecimalValue;
-                                //    break;
-                                //case "MaximumCustomerEnteredPrice":
-                                //    product.MaximumCustomerEnteredPrice = property.DecimalValue;
-                                //    break;
-                                //case "BasepriceEnabled":
-                                //    product.BasepriceEnabled = property.BooleanValue;
-                                //    break;
-                                //case "BasepriceAmount":
-                                //    product.BasepriceAmount = property.DecimalValue;
-                                //    break;
-                                //case "BasepriceUnit":
-                                //    product.BasepriceUnitId = property.IntValue;
-                                //    break;
-                                //case "BasepriceBaseAmount":
-                                //    product.BasepriceBaseAmount = property.DecimalValue;
-                                //    break;
-                                //case "BasepriceBaseUnit":
-                                //    product.BasepriceBaseUnitId = property.IntValue;
-                                //    break;
-                                //case "MarkAsNew":
-                                //    product.MarkAsNew = property.BooleanValue;
-                                //    break;
-                                //case "MarkAsNewStartDateTimeUtc":
-                                //    product.MarkAsNewStartDateTimeUtc = property.DateTimeNullable;
-                                //    break;
-                                //case "MarkAsNewEndDateTimeUtc":
-                                //    product.MarkAsNewEndDateTimeUtc = property.DateTimeNullable;
-                                //    break;
-                                //case "Weight":
-                                //    product.Weight = property.DecimalValue;
-                                //    break;
-                                //case "Length":
-                                //    product.Length = property.DecimalValue;
-                                //    break;
-                                //case "Width":
-                                //    product.Width = property.DecimalValue;
-                                //    break;
-                                //case "Height":
-                                //    product.Height = property.DecimalValue;
-                                //    break;
+                                
                         }
                     }
 
                     //set default product type id
-                    if (isNew && properties.All(p => p.PropertyName != "ProductTypeId"))
+                    if (isNew)
                         product.ProductType = ProductType.SimpleProduct;
 
                     product.UpdatedOnUtc = DateTime.UtcNow;
@@ -899,185 +497,76 @@ namespace Nop.Services.ExportImport
                     {
                         _productService.InsertProduct(product);
                         
-                        tempProperty = manager.GetProperty("Categories");
+                        tempProperty = manager.GetProperty("CategoryIds");
                         if (tempProperty != null)
                         {
-                            var categoryNames = tempProperty.StringValue;
+                            var categoryIdsStr = tempProperty.StringValue;
 
-                            //category mappings
-                            var categories = new int[0];
-                            foreach (var categoryId in categoryNames.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).Select(x => allCategories.First(c => c.Name == x.Trim()).Id))
+                            //新的根據分類SeName添加文章所屬分類記錄的邏輯
+                            var categoryids = categoryIdsStr.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                            foreach (var idstr in categoryids)
                             {
-                                if (categories.Any(c => c == categoryId))
-                                    continue;
-
-                                var productCategory = new ProductCategory
+                                int id = Convert.ToInt32(idstr);
+                                var category = _categoryService.GetCategoryById(id);
+                                if (category != null)
                                 {
-                                    ProductId = product.Id,
-                                    CategoryId = categoryId,
-                                    IsFeaturedProduct = false,
-                                    DisplayOrder = product.DisplayOrder
-                                };
-                                _categoryService.InsertProductCategory(productCategory);
-                            }
+                                    var productCategory = new ProductCategory
+                                    {
+                                        ProductId = product.Id,
+                                        CategoryId = category.Id,
+                                        IsFeaturedProduct = false,
+                                        DisplayOrder = product.DisplayOrder
+                                    };
+                                    _categoryService.InsertProductCategory(productCategory);
+                                }
+                            }                            
                         }
                     }
                     else
                     {
-                        tempProperty = manager.GetProperty("Categories");
+                        tempProperty = manager.GetProperty("CategoryIds");
                         if (tempProperty != null)
                         {
-                            var categoryNames = tempProperty.StringValue;
+                            var categoryIdsStr = tempProperty.StringValue;
                             List<ProductCategory> removeProductCategoryList = new List<ProductCategory>();
-                            if (string.IsNullOrEmpty(categoryNames))
+                            //刪除現有的文章所有的分類
+                            foreach (var item in product.ProductCategories)
                             {
-                                foreach (var item in product.ProductCategories)
-                                {
-                                    removeProductCategoryList.Add(item);   
-                                }
-                                foreach (var item in removeProductCategoryList)
-                                {
-                                    _categoryService.DeleteProductCategory(item);
-                                }
+                                removeProductCategoryList.Add(item);
                             }
-                            else
+                            foreach (var item in removeProductCategoryList)
                             {
-                                var oldCategoryIds = product.ProductCategories.Select(x => x.CategoryId).ToList<int>();
-                                //category mappings
-                                var categories = new int[0];
-                                foreach (var categoryId in categoryNames.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).Select(x => allCategories.First(c => c.Name == x.Trim()).Id))
-                                {
-                                    if (categories.Any(c => c == categoryId))
-                                        continue;
+                                _categoryService.DeleteProductCategory(item);
+                            }
 
+                            //新的根據分類SeName添加文章所屬分類記錄的邏輯
+                            var categoryids = categoryIdsStr.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                            foreach (var idstr in categoryids)
+                            {
+                                int id = Convert.ToInt32(idstr);
+                                var category = _categoryService.GetCategoryById(id);
+                                if (category != null)
+                                {
                                     var productCategory = new ProductCategory
                                     {
                                         ProductId = product.Id,
-                                        CategoryId = categoryId,
+                                        CategoryId = category.Id,
                                         IsFeaturedProduct = false,
                                         DisplayOrder = product.DisplayOrder
                                     };
-
-                                    var isExisted = false;
-                                    foreach (var item in product.ProductCategories)
-                                    {
-                                        if(item.CategoryId== categoryId)
-                                        {
-                                            isExisted = true;
-                                            item.DisplayOrder = product.DisplayOrder;
-                                            _categoryService.UpdateProductCategory(item);
-                                            oldCategoryIds.Remove(categoryId);                                            
-                                            break;
-                                        }                                        
-                                    }
-                                    if (!isExisted)
-                                    {
-                                        _categoryService.InsertProductCategory(productCategory);
-                                    }
-                                }
-                               
-                                foreach (var item in product.ProductCategories)
-                                {
-                                    if (oldCategoryIds.Contains(item.CategoryId))
-                                    {
-                                        removeProductCategoryList.Add(item);                                        
-                                    }
-                                }
-                                foreach (var item in removeProductCategoryList)
-                                {
-                                    _categoryService.DeleteProductCategory(item);
+                                    _categoryService.InsertProductCategory(productCategory);
                                 }
                             }
+
                         }
                                                                                                
                         _productService.UpdateProduct(product);
                     }
 
-                    tempProperty = manager.GetProperty("SeName");
-                    if (tempProperty != null)
-                    {
-                        var seName = tempProperty.StringValue;
-                        //search engine name
-                        _urlRecordService.SaveSlug(product, product.ValidateSeName(seName, product.Name, true), 0);
-                    }
-                    else
-                    {
-                        _urlRecordService.SaveSlug(product, product.ValidateSeName("", product.Name, true), 0);
-                    }
-
-                    //tempProperty = manager.GetProperty("Categories");
-
-                    //if (tempProperty != null)
-                    //{ 
-                    //    var categoryNames = tempProperty.StringValue;
-
-                    //    //category mappings
-                    //    var categories = new int[0];
-                    //    foreach (var categoryId in categoryNames.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).Select(x => allCategories.First(c => c.Name == x.Trim()).Id))
-                    //    {
-                    //        if (categories.Any(c => c == categoryId))
-                    //            continue;
-
-                    //        var productCategory = new ProductCategory
-                    //        {
-                    //            ProductId = product.Id,
-                    //            CategoryId = categoryId,
-                    //            IsFeaturedProduct = false,
-                    //            DisplayOrder = product.DisplayOrder
-                    //        };
-                    //        _categoryService.InsertProductCategory(productCategory);
-                    //    }
-                    //}
-
-                    //tempProperty = manager.GetProperty("Manufacturers");
-                    //if (tempProperty != null)
-                    //{
-                    //    var manufacturerNames = tempProperty.StringValue;
-
-                    //    //manufacturer mappings
-                    //    var manufacturers = isNew || !allProductsManufacturerIds.ContainsKey(product.Id) ? new int[0] : allProductsManufacturerIds[product.Id];
-                    //    foreach (var manufacturerId in manufacturerNames.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).Select(x => allManufacturers.First(m => m.Name == x.Trim()).Id))
-                    //    {
-                    //        if (manufacturers.Any(c => c == manufacturerId))
-                    //            continue;
-
-                    //        var productManufacturer = new ProductManufacturer
-                    //        {
-                    //            ProductId = product.Id,
-                    //            ManufacturerId = manufacturerId,
-                    //            IsFeaturedProduct = false,
-                    //            DisplayOrder = 1
-                    //        };
-                    //        _manufacturerService.InsertProductManufacturer(productManufacturer);
-                    //    }
-                    //}
-
-                    //var picture1 = manager.GetProperty("Picture1").Return(p => p.StringValue, String.Empty);
-                    //var picture2 = manager.GetProperty("Picture2").Return(p => p.StringValue, String.Empty);
-                    //var picture3 = manager.GetProperty("Picture3").Return(p => p.StringValue, String.Empty);
-
-                    //productPictureMetadata.Add(new ProductPictureMetadata
-                    //{
-                    //    ProductItem = product,
-                    //    Picture1Path = picture1,
-                    //    Picture2Path = picture2,
-                    //    Picture3Path = picture3,
-                    //    IsNew = isNew
-                    //});
-
-                    //lastLoadedProduct = product;
-
-                    //update "HasTierPrices" and "HasDiscountsApplied" properties
-                    //_productService.UpdateHasTierPricesProperty(product);
-                    //_productService.UpdateHasDiscountsApplied(product);
-                }
-               
-                //if (_mediaSettings.ImportProductImagesUsingHash && _pictureService.StoreInDb && _dataProvider.SupportedLengthOfBinaryHash() > 0)
-                //    ImportProductImagesUsingHash(productPictureMetadata, allProductsBySku);
-                //else
-                //    ImportProductImagesUsingServices(productPictureMetadata);
+                    
+                }                               
             }
-            //Trace.WriteLine(DateTime.Now-start);
+            
         }
         
         /// <summary>

@@ -3676,7 +3676,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/02/2016 16:02:37</publishTime>
     </File>
     <File Include="Administration/Views/Category/List.cshtml">
-      <publishTime>10/21/2016 11:49:50</publishTime>
+      <publishTime>11/08/2017 13:29:29</publishTime>
     </File>
     <File Include="Administration/Views/Category/ProductAddPopup.cshtml">
       <publishTime>11/08/2016 14:33:42</publishTime>
@@ -4912,22 +4912,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/07/2017 09:06:29</publishTime>
     </File>
     <File Include="bin/Nop.Core.dll">
-      <publishTime>08/09/2017 12:41:50</publishTime>
+      <publishTime>11/08/2017 11:20:20</publishTime>
     </File>
     <File Include="bin/Nop.Data.dll">
-      <publishTime>08/09/2017 12:41:52</publishTime>
+      <publishTime>11/08/2017 11:20:20</publishTime>
     </File>
     <File Include="bin/Nop.Services.dll">
-      <publishTime>08/09/2017 12:41:56</publishTime>
+      <publishTime>11/08/2017 13:38:30</publishTime>
     </File>
     <File Include="bin/Nop.Services.XmlSerializers.dll">
-      <publishTime>08/09/2017 12:42:00</publishTime>
+      <publishTime>11/08/2017 13:38:33</publishTime>
     </File>
     <File Include="bin/Nop.Web.dll">
-      <publishTime>08/09/2017 20:44:06</publishTime>
+      <publishTime>11/08/2017 13:38:35</publishTime>
     </File>
     <File Include="bin/Nop.Web.Framework.dll">
-      <publishTime>08/09/2017 12:42:05</publishTime>
+      <publishTime>11/08/2017 13:38:34</publishTime>
     </File>
     <File Include="bin/Owin.dll">
       <publishTime>06/01/2016 09:23:42</publishTime>
@@ -7198,7 +7198,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/08/2016 11:56:51</publishTime>
     </File>
     <File Include="Themes/wwbible/Content/css/style.css">
-      <publishTime>08/08/2017 18:17:45</publishTime>
+      <publishTime>08/10/2017 19:45:29</publishTime>
     </File>
     <File Include="Themes/wwbible/Content/css/styles.css">
       <publishTime>09/08/2016 11:56:51</publishTime>
@@ -7242,6 +7242,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Themes/wwbible/Content/images/details.png">
       <publishTime>09/08/2016 11:56:51</publishTime>
     </File>
+    <File Include="Themes/wwbible/Content/images/dialog-close.png">
+      <publishTime>08/10/2017 18:50:04</publishTime>
+    </File>
     <File Include="Themes/wwbible/Content/images/discontinued-product-icon.png">
       <publishTime>09/08/2016 11:56:51</publishTime>
     </File>
@@ -7282,10 +7285,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/08/2016 11:56:51</publishTime>
     </File>
     <File Include="Themes/wwbible/Content/images/left-hover.png">
-      <publishTime>08/08/2017 12:40:18</publishTime>
+      <publishTime>08/10/2017 18:36:21</publishTime>
     </File>
     <File Include="Themes/wwbible/Content/images/left.png">
-      <publishTime>08/08/2017 12:40:18</publishTime>
+      <publishTime>08/10/2017 15:48:52</publishTime>
     </File>
     <File Include="Themes/wwbible/Content/images/leftpage-hover.png">
       <publishTime>11/08/2016 16:23:42</publishTime>
@@ -7342,10 +7345,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/08/2016 11:56:51</publishTime>
     </File>
     <File Include="Themes/wwbible/Content/images/right-hover.png">
-      <publishTime>08/08/2017 12:40:18</publishTime>
+      <publishTime>08/10/2017 18:37:09</publishTime>
     </File>
     <File Include="Themes/wwbible/Content/images/right.png">
-      <publishTime>08/08/2017 12:40:18</publishTime>
+      <publishTime>08/10/2017 15:49:00</publishTime>
     </File>
     <File Include="Themes/wwbible/Content/images/rightpage-hover.png">
       <publishTime>11/07/2016 02:03:56</publishTime>
@@ -7462,7 +7465,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/22/2016 17:58:19</publishTime>
     </File>
     <File Include="Themes/wwbible/Views/Catalog/CategoryTemplate.WBSApplyLecture.cshtml">
-      <publishTime>01/25/2017 09:23:49</publishTime>
+      <publishTime>08/18/2017 09:42:37</publishTime>
     </File>
     <File Include="Themes/wwbible/Views/Catalog/CategoryTemplate.WBSBookView.cshtml">
       <publishTime>01/11/2017 17:09:21</publishTime>
@@ -7474,13 +7477,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/09/2017 19:54:46</publishTime>
     </File>
     <File Include="Themes/wwbible/Views/Catalog/CategoryTemplate.WBSHolyLandView.cshtml">
-      <publishTime>08/09/2017 20:43:38</publishTime>
+      <publishTime>08/09/2017 20:54:12</publishTime>
     </File>
     <File Include="Themes/wwbible/Views/Catalog/CategoryTemplate.WBSListView.cshtml">
       <publishTime>11/04/2016 11:29:23</publishTime>
     </File>
     <File Include="Themes/wwbible/Views/Catalog/CategoryTemplate.WBSSentenceView.cshtml">
-      <publishTime>08/09/2017 10:51:18</publishTime>
+      <publishTime>09/05/2017 16:43:08</publishTime>
     </File>
     <File Include="Themes/wwbible/Views/Catalog/CategoryTemplate.WBSSimple.cshtml">
       <publishTime>10/28/2016 23:59:49</publishTime>
@@ -7546,7 +7549,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/07/2016 07:47:02</publishTime>
     </File>
     <File Include="Themes/wwbible/Views/News/NewsItem.cshtml">
-      <publishTime>11/07/2016 05:28:58</publishTime>
+      <publishTime>08/17/2017 11:51:22</publishTime>
     </File>
     <File Include="Themes/wwbible/Views/Newsletter/NewsletterBox.cshtml">
       <publishTime>09/08/2016 11:56:51</publishTime>
@@ -7564,7 +7567,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/02/2016 11:33:31</publishTime>
     </File>
     <File Include="Themes/wwbible/Views/Product/ProductTemplate.WBSSimple.cshtml">
-      <publishTime>08/09/2017 13:42:35</publishTime>
+      <publishTime>08/09/2017 21:47:48</publishTime>
     </File>
     <File Include="Themes/wwbible/Views/Product/ProductTemplate.WBSSupport.cshtml">
       <publishTime>10/28/2016 21:04:14</publishTime>
@@ -8188,7 +8191,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/10/2015 19:24:05</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>08/09/2017 12:42:21</publishTime>
+      <publishTime>11/08/2017 11:20:41</publishTime>
     </File>
   </ItemGroup>
 </Project>

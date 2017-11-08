@@ -123,6 +123,13 @@ namespace Nop.Services.Catalog
         string[] GetNotExistingCategories(string[] categoryNames);
 
         /// <summary>
+        /// Returns a list of ids of not existing categories
+        /// </summary>
+        /// <param name="ids">The nemes of the categories to check</param>
+        /// <returns>List of names not existing categories</returns>
+        int[] GetNotExistingCategories(int[] categoryIds);
+
+        /// <summary>
         /// Get category IDs for products
         /// </summary>
         /// <param name="productIds">Products IDs</param>

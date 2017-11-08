@@ -274,6 +274,26 @@ namespace Nop.Services.Seo
         }
 
         /// <summary>
+        /// Returns a list of names of not existing slug names
+        /// </summary>
+        /// <param name="slugNames">The nemes of the slug names to check</param>
+        /// <returns>List of names not existing slug names</returns>
+        public virtual string[] GetNotExistingSeNames(string[] slugNames)
+        {
+            if (slugNames == null)
+                throw new ArgumentNullException("slugNames");
+
+            var queryFilter = slugNames.Distinct().ToArray();
+
+            //load all records (we know they are cached)
+            var source = GetAllUrlRecordsCached();
+
+            var filter = source.Select(c => c.Slug).Where(c => queryFilter.Contains(c)).ToList();
+
+            return queryFilter.Except(filter).ToArray();            
+        }
+
+        /// <summary>
         /// Gets all URL records
         /// </summary>
         /// <param name="slug">Slug</param>

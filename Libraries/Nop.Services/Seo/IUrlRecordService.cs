@@ -64,6 +64,13 @@ namespace Nop.Services.Seo
         UrlRecordService.UrlRecordForCaching GetBySlugCached(string slug);
 
         /// <summary>
+        /// Returns a list of names of not existing slug names
+        /// </summary>
+        /// <param name="slugNames">The nemes of the slug names to check</param>
+        /// <returns>List of names not existing slug names</returns>
+        string[] GetNotExistingSeNames(string[] slugNames);
+
+        /// <summary>
         /// Gets all URL records
         /// </summary>
         /// <param name="slug">Slug</param>

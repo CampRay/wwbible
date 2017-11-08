@@ -585,6 +585,23 @@ namespace Nop.Services.Catalog
             return queryFilter.Except(filter).ToArray();
         }
 
+        /// <summary>
+        /// Returns a list of ids of not existing categories
+        /// </summary>
+        /// <param name="ids">The nemes of the categories to check</param>
+        /// <returns>List of names not existing categories</returns>
+        public virtual int[] GetNotExistingCategories(int[] categoryIds)
+        {
+            if (categoryIds == null)
+                throw new ArgumentNullException("categoryIds");
+
+            var query = _categoryRepository.Table;
+            var queryFilter = categoryIds.Distinct().ToArray();
+            var filter = query.Select(c => c.Id).Where(c => categoryIds.Contains(c)).ToList();
+
+            return queryFilter.Except(filter).ToArray();
+        }
+
 
         /// <summary>
         /// Get category IDs for products
