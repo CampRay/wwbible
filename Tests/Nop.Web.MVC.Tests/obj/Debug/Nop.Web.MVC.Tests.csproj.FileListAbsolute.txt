@@ -152,3 +152,5 @@ D:\NewGit\wwbible\Tests\Nop.Web.MVC.Tests\obj\Debug\Nop.Web.MVC.Tests.csproj.App
 D:\NewGit\wwbible\Tests\Nop.Web.MVC.Tests\obj\Debug\Nop.Web.MVC.Tests.csprojResolveAssemblyReference.cache
 D:\NewGit\wwbible\Tests\Nop.Web.MVC.Tests\obj\Debug\Nop.Web.MVC.Tests.dll
 D:\NewGit\wwbible\Tests\Nop.Web.MVC.Tests\obj\Debug\Nop.Web.MVC.Tests.pdb
+D:\NewGit\wwbible\Tests\Nop.Web.MVC.Tests\bin\Debug\App_Data\InstalledPlugins.txt
+D:\NewGit\wwbible\Tests\Nop.Web.MVC.Tests\bin\Debug\App_Data\Settings.txt

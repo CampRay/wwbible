@@ -191,8 +191,15 @@
         </div>
         <div class="col-md-3">
             <div class="lecture-apply">
+                @if (product.MarkAsNew)
+                {
+                    <label style="color:red;">@T("ApplyLecture.form.no.vacancies")</label>
+                }
+                else
+                {
                 <input type="checkbox" name="ProductId" value="@product.Id" />
                 <label>@T("ApplyLecture.form.Apply")</label>
+                }
             </div>
         </div>
         <div class="clearfix"></div> 

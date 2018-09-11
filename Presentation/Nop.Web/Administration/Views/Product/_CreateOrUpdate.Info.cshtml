@@ -71,27 +71,27 @@
         var selectedProductTypeId = $("#@Html.FieldIdFor(model => model.ProductTypeId)").val();
         if (!selectedProductTypeId || selectedProductTypeId == @(((int) ProductType.SimpleProduct).ToString())) {
             $('#group-prices').show();
-        $('#tier-prices').show();
-        $('#group-required-other-products').show();
-        $('#group-giftcard').show();
-        $('#group-downloads').show();
-        $('#group-recurring').show();
-        $('#group-rental').show();
-        $('#group-shipping').show();
-        $('#group-inventory').show();
-        $('#group-associated-products').hide();
-    } else if (selectedProductTypeId == @(((int) ProductType.GroupedProduct).ToString())) {
-        $('#group-prices').hide();
-        $('#tier-prices').hide();
-        $('#group-required-other-products').hide();
-        $('#group-giftcard').hide();
-        $('#group-downloads').hide();
-        $('#group-recurring').hide();
-        $('#group-rental').hide();
-        $('#group-shipping').hide();
-        $('#group-inventory').hide();
-        $('#group-associated-products').show();
-    }
+            $('#tier-prices').show();
+            $('#group-required-other-products').show();
+            $('#group-giftcard').show();
+            $('#group-downloads').show();
+            $('#group-recurring').show();
+            $('#group-rental').show();
+            $('#group-shipping').show();
+            $('#group-inventory').show();
+            $('#group-associated-products').hide();
+        } else if (selectedProductTypeId == @(((int) ProductType.GroupedProduct).ToString())) {
+            $('#group-prices').hide();
+            $('#tier-prices').hide();
+            $('#group-required-other-products').hide();
+            $('#group-giftcard').hide();
+            $('#group-downloads').hide();
+            $('#group-recurring').hide();
+            $('#group-rental').hide();
+            $('#group-shipping').hide();
+            $('#group-inventory').hide();
+            $('#group-associated-products').show();
+        }
     }
 
     @*function togglePreOrder() {
@@ -101,7 +101,7 @@
             $('#pnlPreOrderAvailabilityStartDateTimeUtc').hide();
         }
     }
-
+    
     function toggleRequireOtherProducts() {
         if ($('#@Html.FieldIdFor(model => model.RequireOtherProducts)').is(':checked')) {
             $('#pnlRequiredProductIds').show();
@@ -1735,18 +1735,47 @@
                                     });
 
                                     @if (Model.AvailableCategories.Count == 0)
-                            {
-                                <text>
-                                    categoryIdsInput.setOptions({
-                                        enable: false,
-                                        placeholder: '@T("Admin.Catalog.Products.Fields.Categories.NoCategoriesAvailable")'
+                                    {
+                                        <text>
+                                            categoryIdsInput.setOptions({
+                                                enable: false,
+                                                placeholder: '@T("Admin.Catalog.Products.Fields.Categories.NoCategoriesAvailable")'
+                                            });
+                                            categoryIdsInput._placeholder();
+                                            categoryIdsInput._enable();
+                                            </text>
+                                    }
+                                    //如果選擇的是課程講座分類，則顯示名額已滿選項，否則隱藏
+                                    $('#@Html.FieldIdFor(model => model.SelectedCategoryIds)').on("change",function(){
+                                        var arr=$(this).val();
+                                        if(jQuery.inArray("38",arr)==-1){
+                                            $("#pnlMarkNoVacancies").hide();
+                                            $('#@Html.FieldIdFor(model => model.MarkAsNew)').attr("checked",false);
+                                        }
+                                        else{
+                                            $("#pnlMarkNoVacancies").show();
+                                        }
+
                                     });
-                                    categoryIdsInput._placeholder();
-                                    categoryIdsInput._enable();
-                                    </text>
-                            }
+
+                                    if(jQuery.inArray("38",$('#@Html.FieldIdFor(model => model.SelectedCategoryIds)').val())==-1){
+                                        $("#pnlMarkNoVacancies").hide();
+                                    }
+                                    else{
+                                        $("#pnlMarkNoVacancies").show();
+                                    }
                                 });
                             </script>
+                        </div>
+                    </div>
+                    <!--设置课程讲座金额已满的选项-->
+                    <div class="form-group" id="pnlMarkNoVacancies">
+                        <div class="col-md-3">
+                            @Html.NopLabelFor(model => model.MarkAsNew)
+                        </div>
+                        <div class="col-md-9">
+                            @Html.NopEditorFor(model => model.MarkAsNew)
+                            @Html.ValidationMessageFor(model => model.MarkAsNew)
                         </div>
                     </div>
                     @*<div class="form-group @(Model.ProductEditorSettingsModel.Manufacturers ? null : "advanced-setting")">
